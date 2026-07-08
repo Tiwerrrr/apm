@@ -24,3 +24,4 @@ apm-installer
 apm.exe.old
 *.tmp
 release.ps1
+push.ps1

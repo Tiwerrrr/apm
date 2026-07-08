@@ -55,21 +55,7 @@ apm list-all
 | `apm version` | `apm -v` | Версия APM |
 | `apm help` | `apm -h` | Справка |
 
-## 📦 Доступные пакеты
-
-| Категория | Пакеты |
-|-----------|--------|
-| 🌐 Браузеры | `google-chrome`, `firefox` |
-| 💬 Мессенджеры | `telegram`, `discord` |
-| 🎮 Игры | `steam` |
-| 🎵 Медиа | `vlc`, `spotify`, `obs-studio`, `audacity`, `handbrake`, `kdenlive` |
-| 💻 Разработка | `vscode`, `git`, `nodejs`, `python`, `notepadplusplus` |
-| 📁 Утилиты | `7zip`, `winrar`, `everything`, `powertoys`, `sharex` |
-| 🎨 Графика/3D | `gimp`, `blender` |
-| ☁️ Облако | `google-drive` |
-| 📧 Почта | `thunderbird` |
-| 🌐 Сеть | `putty`, `filezilla`, `wireshark`, `qbittorrent` |
-| 📄 Офис | `libreoffice` |
+## [📦 Доступные пакеты](https://github.com/Tiwerrrr/apm/blob/main/data/registry.json)
 
 ## 🔧 Сборка из исходников
 
