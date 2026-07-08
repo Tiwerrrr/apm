@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -82,11 +81,9 @@ func UpgradeSelf() error {
 	console.Info("New version found: v%s (Current: v%s)", latestVersion, currentVersion)
 
 	var installerURL string
-	var installerSize int64
 	for _, asset := range release.Assets {
 		if strings.HasSuffix(strings.ToLower(asset.Name), ".exe") {
 			installerURL = asset.BrowserDownloadURL
-			installerSize = asset.Size
 			break
 		}
 	}
