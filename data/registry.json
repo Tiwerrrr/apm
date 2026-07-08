@@ -576,6 +576,17 @@
       "bin": "platform-tools/adb.exe",
       "homepage": "https://developer.android.com/studio/releases/platform-tools",
       "tags": ["adb", "fastboot", "android", "sdk", "platform-tools"]
+    },
+    "epicgames": {
+      "name": "Epic Games Launcher",
+      "description": "Digital storefront and game launcher for Epic Games.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi",
+      "silent_args": "/quiet /norestart",
+      "uninstall_name": "Epic Games Launcher",
+      "homepage": "https://store.epicgames.com",
+      "tags": ["epic", "games", "store", "launcher"]
     }
   }
 }
