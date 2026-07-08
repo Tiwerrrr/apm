@@ -36,6 +36,10 @@ func Install(pkg *registry.Package, pkgID string, filePath string) error {
 			if err := createShim(binDir, exePath, pkgID); err != nil {
 				console.Warning("Failed to create shim: %v", err)
 			}
+			// Create Start Menu Shortcut
+			if err := createStartMenuShortcut(exePath, pkg.Name); err != nil {
+				console.Warning("Failed to create Start Menu shortcut: %v", err)
+			}
 		}
 
 		// Record the installation
@@ -121,6 +125,17 @@ func Uninstall(pkgID string) error {
 		// Portable: remove directory
 		if err := os.RemoveAll(installed.InstallPath); err != nil {
 			return fmt.Errorf("failed to remove portable app: %w", err)
+		}
+
+		// Remove shim
+		binDir := filepath.Join(config.RootDir, "bin")
+		os.Remove(filepath.Join(binDir, installed.Name+".bat"))
+
+		// Remove Start Menu shortcut
+		appData := os.Getenv("APPDATA")
+		if appData != "" {
+			shortcutPath := filepath.Join(appData, "Microsoft", "Windows", "Start Menu", "Programs", installed.DisplayName+".lnk")
+			os.Remove(shortcutPath)
 		}
 	} else {
 		// Installer: try to find and run uninstaller from registry

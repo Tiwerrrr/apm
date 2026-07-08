@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 
@@ -80,4 +81,27 @@ func createShim(binDir string, exePath string, shimName string) error {
 
 	console.Info("Creating shim: %s -> %s", shimName, exePath)
 	return os.WriteFile(shimPath, []byte(content), 0755)
+}
+
+// createStartMenuShortcut creates a .lnk shortcut in the Windows Start Menu
+func createStartMenuShortcut(exePath string, appName string) error {
+	appData := os.Getenv("APPDATA")
+	if appData == "" {
+		return fmt.Errorf("APPDATA environment variable not set")
+	}
+
+	startMenuDir := filepath.Join(appData, "Microsoft", "Windows", "Start Menu", "Programs")
+	os.MkdirAll(startMenuDir, 0755)
+
+	shortcutPath := filepath.Join(startMenuDir, appName+".lnk")
+	
+	psCmd := fmt.Sprintf(`$s=(New-Object -COM WScript.Shell).CreateShortcut('%s'); $s.TargetPath='%s'; $s.Save()`, shortcutPath, exePath)
+	
+	cmd := exec.Command("powershell", "-NoProfile", "-Command", psCmd)
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("powershell failed to create shortcut: %w", err)
+	}
+	
+	console.Info("Added %s to Start Menu", appName)
+	return nil
 }

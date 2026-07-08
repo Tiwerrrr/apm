@@ -494,6 +494,19 @@
       "uninstall_name": "WinSCP",
       "homepage": "https://winscp.net/",
       "tags": ["winscp", "ftp", "sftp", "client", "ssh"]
+    },
+    "mpc-hc": {
+      "name": "MPC-HC",
+      "description": "Media Player Classic Home Cinema is an extremely light-weight, open source media player for Windows.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/clsid2/mpc-hc/releases/latest/download/MPC-HC.2.3.8.x64.exe",
+      "github_repo": "clsid2/mpc-hc",
+      "asset_regex": "MPC-HC.*x64\\.exe",
+      "silent_args": "/VERYSILENT /NORESTART",
+      "uninstall_name": "MPC-HC",
+      "homepage": "https://github.com/clsid2/mpc-hc",
+      "tags": ["mpc-hc", "media", "player", "video", "audio", "cinema"]
     }
   }
 }
