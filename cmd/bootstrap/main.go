@@ -1,8 +1,10 @@
 package main
 
 import (
-	_ "embed"
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -11,9 +13,13 @@ import (
 	"unsafe"
 )
 
-// Вшиваем файл apm.exe прямо внутрь нашего инсталлера!
-//go:embed apm.exe
-var apmBinary []byte
+type githubRelease struct {
+	TagName string `json:"tag_name"`
+	Assets  []struct {
+		Name               string `json:"name"`
+		BrowserDownloadURL string `json:"browser_download_url"`
+	} `json:"assets"`
+}
 
 func main() {
 	// 1. Определяем пути
@@ -38,24 +44,76 @@ func main() {
 		os.Exit(1)
 	}
 
-	// 3. Сохраняем вшитый файл на диск пользователя
-	if err := os.WriteFile(exePath, apmBinary, 0755); err != nil {
-		showError("Ошибка распаковки", err.Error())
+	// 4. Скачиваем самую новую версию apm.exe с GitHub
+	if err := downloadLatestAPM(exePath); err != nil {
+		showError("Ошибка загрузки APM", err.Error())
 		os.Exit(1)
 	}
 
-	// 4. Добавляем в PATH пользователя
+	// 5. Добавляем в PATH пользователя
 	if err := addToPath(installDir); err != nil {
 		showError("Ошибка обновления PATH", err.Error())
 		os.Exit(1)
 	}
 
-	// 5. Показываем системное уведомление об успехе
-	showInfo("Установка завершена", "APM успешно установлен!\n\nПерезапустите терминал и введите 'apm help' для начала работы.")
+	// 6. Показываем системное уведомление об успехе
+	showInfo("Установка завершена", "Самая свежая версия APM успешно скачана и установлена!\n\nПерезапустите терминал и введите 'apm help' для начала работы.")
+}
+
+func downloadLatestAPM(destPath string) error {
+	resp, err := http.Get("https://api.github.com/repos/Tiwerrrr/apm/releases/latest")
+	if err != nil {
+		return fmt.Errorf("ошибка проверки обновлений: %v", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("GitHub вернул статус: %s", resp.Status)
+	}
+
+	var release githubRelease
+	if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
+		return fmt.Errorf("ошибка разбора ответа GitHub: %v", err)
+	}
+
+	var downloadURL string
+	for _, asset := range release.Assets {
+		if strings.EqualFold(asset.Name, "apm.exe") {
+			downloadURL = asset.BrowserDownloadURL
+			break
+		}
+	}
+
+	if downloadURL == "" {
+		return fmt.Errorf("файл apm.exe не найден в последнем релизе")
+	}
+
+	// Скачиваем файл
+	fileResp, err := http.Get(downloadURL)
+	if err != nil {
+		return fmt.Errorf("ошибка скачивания файла: %v", err)
+	}
+	defer fileResp.Body.Close()
+
+	if fileResp.StatusCode != http.StatusOK {
+		return fmt.Errorf("ошибка при скачивании файла, статус: %s", fileResp.Status)
+	}
+
+	out, err := os.Create(destPath)
+	if err != nil {
+		return fmt.Errorf("ошибка создания файла: %v", err)
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, fileResp.Body)
+	if err != nil {
+		return fmt.Errorf("ошибка записи файла: %v", err)
+	}
+
+	return nil
 }
 
 func addToPath(newPath string) error {
-	// Получаем текущий PATH пользователя через PowerShell
 	cmdGet := exec.Command("powershell", "-NoProfile", "-Command", "[Environment]::GetEnvironmentVariable('Path', 'User')")
 	out, err := cmdGet.Output()
 	if err != nil {
@@ -63,16 +121,13 @@ func addToPath(newPath string) error {
 	}
 
 	currentPath := strings.TrimSpace(string(out))
-	
-	// Проверяем, есть ли уже наш путь в PATH
 	paths := strings.Split(currentPath, ";")
 	for _, p := range paths {
 		if strings.EqualFold(strings.TrimSpace(p), newPath) {
-			return nil // Уже есть в PATH
+			return nil
 		}
 	}
 
-	// Добавляем наш путь
 	var updatedPath string
 	if currentPath == "" {
 		updatedPath = newPath
@@ -84,7 +139,6 @@ func addToPath(newPath string) error {
 		}
 	}
 
-	// Сохраняем новый PATH
 	psCmd := fmt.Sprintf(`[Environment]::SetEnvironmentVariable('Path', '%s', 'User')`, updatedPath)
 	cmdSet := exec.Command("powershell", "-NoProfile", "-Command", psCmd)
 	if err := cmdSet.Run(); err != nil {
@@ -94,12 +148,11 @@ func addToPath(newPath string) error {
 	return nil
 }
 
-// WinAPI константы для MessageBox
 const (
-	MB_OK                = 0x00000000
-	MB_ICONINFORMATION   = 0x00000040
-	MB_ICONERROR         = 0x00000010
-	MB_SETFOREGROUND     = 0x00010000
+	MB_OK              = 0x00000000
+	MB_ICONINFORMATION = 0x00000040
+	MB_ICONERROR       = 0x00000010
+	MB_SETFOREGROUND   = 0x00010000
 )
 
 func showInfo(title, message string) {
@@ -127,7 +180,6 @@ func showMessageBox(title, message string, flags uint32) uintptr {
 }
 
 func askYesNo(title, message string) bool {
-	// MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND
 	ret := showMessageBox(title, message, 0x00000004|0x00000020|MB_SETFOREGROUND)
 	return ret == 6 // IDYES
 }
