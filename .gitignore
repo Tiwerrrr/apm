@@ -25,3 +25,4 @@ apm.exe.old
 *.tmp
 release.ps1
 push.ps1
+docker-compose.yml
