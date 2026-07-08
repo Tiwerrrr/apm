@@ -25,7 +25,14 @@ func main() {
 	installDir := filepath.Join(localAppData, "apm", "bin")
 	exePath := filepath.Join(installDir, "apm.exe")
 
-	// 2. Создаем директорию
+	// 2. Проверяем, установлен ли уже APM
+	if _, err := os.Stat(exePath); err == nil {
+		if !askYesNo("APM уже установлен", "Хотите ли вы переустановить APM (без потери списков установленных программ)?") {
+			os.Exit(0)
+		}
+	}
+
+	// 3. Создаем директорию
 	if err := os.MkdirAll(installDir, 0755); err != nil {
 		showError("Ошибка создания директории", err.Error())
 		os.Exit(1)
@@ -103,17 +110,24 @@ func showError(title, message string) {
 	showMessageBox(title, message, MB_OK|MB_ICONERROR|MB_SETFOREGROUND)
 }
 
-func showMessageBox(title, message string, flags uint32) {
+func showMessageBox(title, message string, flags uint32) uintptr {
 	user32 := syscall.NewLazyDLL("user32.dll")
 	messageBox := user32.NewProc("MessageBoxW")
 
 	t, _ := syscall.UTF16PtrFromString(title)
 	m, _ := syscall.UTF16PtrFromString(message)
 
-	messageBox.Call(
+	ret, _, _ := messageBox.Call(
 		0,
 		uintptr(unsafe.Pointer(m)),
 		uintptr(unsafe.Pointer(t)),
 		uintptr(flags),
 	)
+	return ret
+}
+
+func askYesNo(title, message string) bool {
+	// MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND
+	ret := showMessageBox(title, message, 0x00000004|0x00000020|MB_SETFOREGROUND)
+	return ret == 6 // IDYES
 }
