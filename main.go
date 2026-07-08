@@ -95,7 +95,7 @@ func main() {
 
 func printUsage() {
 	console.Logo()
-	fmt.Printf("  %s%sAPM v%s%s — Awesome Package Manager for Windows\n\n", console.Bold, console.BrightWhite, version, console.Reset)
+	fmt.Printf("  %s%sAPM v%s%s — Awesome Package Manager for Windows\n\n", console.Bold, console.BrightWhite, config.Version, console.Reset)
 	fmt.Printf("  %s%sUSAGE:%s\n", console.Bold, console.BrightYellow, console.Reset)
 	fmt.Printf("    apm <command> [arguments]\n\n")
 	fmt.Printf("  %s%sCOMMANDS:%s\n", console.Bold, console.BrightYellow, console.Reset)
