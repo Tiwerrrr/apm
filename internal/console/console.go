@@ -79,6 +79,15 @@ func Info(format string, args ...interface{}) {
 	fmt.Printf("%s%s ℹ %s %s%s\n", BrightBlue, Bold, Reset, msg, Reset)
 }
 
+// AskYesNoConsole asks a yes/no question in the console
+func AskYesNoConsole(question string) bool {
+	fmt.Printf("%s%s ❓ %s%s %s[y/N]%s: ", BrightCyan, Bold, Reset, question, BrightYellow, Reset)
+	var response string
+	fmt.Scanln(&response)
+	response = strings.ToLower(strings.TrimSpace(response))
+	return response == "y" || response == "yes" || response == "д" || response == "да"
+}
+
 // Success prints a success message
 func Success(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)

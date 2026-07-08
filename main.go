@@ -79,6 +79,12 @@ func main() {
 			os.Exit(1)
 		}
 
+	case "selfdestruct":
+		if err := commands.SelfDestruct(); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
 	case "upgrade-all":
 		if err := commands.UpgradeAll(); err != nil {
 			console.Error("%v", err)
@@ -135,6 +141,7 @@ func printUsage() {
 	fmt.Printf("    %s%ssearch%s  <query>      Search for packages\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%slist%s                 Show installed packages\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%slist-all%s             Show all available packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sselfdestruct%s         Permanently uninstall APM and its data\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%sversion%s              Show APM version\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%shelp%s                 Show this help message\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Println()
