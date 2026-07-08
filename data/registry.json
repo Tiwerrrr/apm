@@ -566,6 +566,16 @@
       "uninstall_name": "Tor Browser",
       "homepage": "https://www.torproject.org",
       "tags": ["tor", "browser", "privacy", "onion"]
+    },
+    "adb": {
+      "name": "Android SDK Platform-Tools (ADB & Fastboot)",
+      "description": "Component for the Android SDK that includes tools that interface with the Android platform, such as adb and fastboot.",
+      "version": "latest",
+      "type": "portable",
+      "url": "https://dl.google.com/android/repository/platform-tools-latest-windows.zip",
+      "bin": "platform-tools/adb.exe",
+      "homepage": "https://developer.android.com/studio/releases/platform-tools",
+      "tags": ["adb", "fastboot", "android", "sdk", "platform-tools"]
     }
   }
 }

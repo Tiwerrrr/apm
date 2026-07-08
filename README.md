@@ -52,6 +52,12 @@ apm list-all
 | `apm search <query>` | `apm s` | Поиск пакетов |
 | `apm list` | `apm ls` | Установленные пакеты |
 | `apm list-all` | | Все доступные пакеты |
+| `apm update` | `apm u` | Обновить локальный реестр пакетов с GitHub |
+| `apm upgrade` | | Обновить сам пакетный менеджер APM |
+| `apm upgrade-all` | | Обновить все установленные пакеты |
+| `apm export <file>` | | Экспортировать список пакетов |
+| `apm import <file>` | | Установить пакеты из списка |
+| `apm selfdestruct`| | Полностью удалить APM |
 | `apm version` | `apm -v` | Версия APM |
 | `apm help` | `apm -h` | Справка |
 
@@ -61,7 +67,7 @@ apm list-all
 
 ```bash
 # Требуется Go 1.22+
-git clone https://github.com/apm-cli/apm.git
+git clone https://github.com/Tiwerrrr/apm.git
 cd apm
 go build -o apm.exe .
 ```
@@ -79,6 +85,10 @@ APM/
     │   ├── install.go             # Команда install
     │   ├── remove.go              # Команда remove
     │   ├── search.go              # Команда search
+    │   ├── update.go              # Команды update
+    │   ├── upgrade.go             # Команды upgrade / upgrade-all
+    │   ├── export.go              # Команды export / import
+    │   ├── selfdestruct.go        # Команда selfdestruct
     │   └── list.go                # Команды list / list-all
     ├── config/
     │   └── config.go              # Пути и база установленных пакетов
