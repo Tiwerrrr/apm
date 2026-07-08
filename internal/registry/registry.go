@@ -26,6 +26,10 @@ type Package struct {
 	UninstallName string   `json:"uninstall_name"`
 	Homepage      string   `json:"homepage"`
 	Tags          []string `json:"tags"`
+	GithubRepo    string   `json:"github_repo,omitempty"`
+	AssetRegex    string   `json:"asset_regex,omitempty"`
+	Dependencies  []string `json:"dependencies,omitempty"`
+	Bin           string   `json:"bin,omitempty"`
 }
 
 // Registry holds all available packages

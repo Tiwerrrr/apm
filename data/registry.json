@@ -336,6 +336,8 @@
       "version": "latest",
       "type": "installer",
       "url": "https://github.com/zen-browser/desktop/releases/latest/download/zen.installer.exe",
+      "github_repo": "zen-browser/desktop",
+      "asset_regex": "zen\\.installer\\.exe",
       "silent_args": "/S",
       "uninstall_name": "Zen Browser",
       "homepage": "https://zen-browser.app/",
@@ -344,9 +346,11 @@
     "prismlauncher": {
       "name": "PrismLauncher",
       "description": "A custom launcher for Minecraft that allows you to easily manage multiple installations.",
-      "version": "11.0.2",
+      "version": "latest",
       "type": "installer",
       "url": "https://github.com/prismlauncher/PrismLauncher/releases/latest/download/PrismLauncher-Windows-MSVC-Setup-11.0.2.exe",
+      "github_repo": "prismlauncher/PrismLauncher",
+      "asset_regex": ".*MSVC-Setup.*\\.exe",
       "silent_args": "/S",
       "uninstall_name": "PrismLauncher",
       "homepage": "https://prismlauncher.org/",
@@ -355,9 +359,11 @@
     "prismlauncher-cracked": {
       "name": "PrismLauncher Cracked",
       "description": "A custom launcher for Minecraft (Cracked version).",
-      "version": "11.0.2-1",
+      "version": "latest",
       "type": "installer",
       "url": "https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest/download/PrismLauncher-Windows-MSVC-Setup-11.0.2-1.exe",
+      "github_repo": "Diegiwg/PrismLauncher-Cracked",
+      "asset_regex": ".*MSVC-Setup.*\\.exe",
       "silent_args": "/S",
       "uninstall_name": "PrismLauncher",
       "homepage": "https://github.com/Diegiwg/PrismLauncher-Cracked",
@@ -406,6 +412,18 @@
       "uninstall_name": "Go Programming Language",
       "homepage": "https://go.dev/",
       "tags": ["go", "golang", "programming", "language", "compiler"]
+    },
+    "ayugram": {
+      "name": "AyuGram Desktop",
+      "description": "A Telegram client with some useful features.",
+      "version": "latest",
+      "type": "portable",
+      "url": "https://github.com/AyuGram/AyuGramDesktop/releases/latest/download/AyuGram.zip",
+      "github_repo": "AyuGram/AyuGramDesktop",
+      "asset_regex": "AyuGram\\.zip",
+      "bin": "AyuGram.exe",
+      "homepage": "https://github.com/AyuGram/AyuGramDesktop",
+      "tags": ["telegram", "ayugram", "chat", "messenger"]
     }
   }
 }

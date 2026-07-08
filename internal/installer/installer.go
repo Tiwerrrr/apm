@@ -13,11 +13,39 @@ import (
 	"github.com/apm-cli/apm/internal/registry"
 )
 
-// Install installs a package from the downloaded file
 func Install(pkg *registry.Package, pkgID string, filePath string) error {
-	console.Step("🔧", "Running installer (silent mode)...")
-
 	ext := strings.ToLower(filepath.Ext(filePath))
+
+	// Handle Portable ZIPs
+	if ext == ".zip" {
+		console.Step("📦", "Extracting portable package...")
+		appsDir := filepath.Join(config.RootDir, "apps")
+		installDir := filepath.Join(appsDir, pkgID)
+		
+		// Remove previous install dir if exists
+		os.RemoveAll(installDir)
+		
+		if err := extractZip(filePath, installDir); err != nil {
+			return fmt.Errorf("failed to extract zip: %w", err)
+		}
+		
+		// Create Shim if bin is specified
+		if pkg.Bin != "" {
+			exePath := filepath.Join(installDir, pkg.Bin)
+			binDir := filepath.Join(config.RootDir, "bin")
+			if err := createShim(binDir, exePath, pkgID); err != nil {
+				console.Warning("Failed to create shim: %v", err)
+			}
+		}
+
+		// Record the installation
+		if err := recordInstall(pkgID, pkg, installDir); err != nil {
+			console.Warning("Package installed but failed to record: %v", err)
+		}
+		return nil
+	}
+
+	console.Step("🔧", "Running installer (silent mode)...")
 
 	var cmd *exec.Cmd
 
@@ -68,7 +96,7 @@ func Install(pkg *registry.Package, pkgID string, filePath string) error {
 	}
 
 	// Record the installation
-	if err := recordInstall(pkgID, pkg); err != nil {
+	if err := recordInstall(pkgID, pkg, ""); err != nil {
 		console.Warning("Package installed but failed to record: %v", err)
 	}
 
@@ -123,7 +151,7 @@ func IsInstalled(pkgID string) bool {
 }
 
 // recordInstall adds a package to the installed database
-func recordInstall(pkgID string, pkg *registry.Package) error {
+func recordInstall(pkgID string, pkg *registry.Package, installDir string) error {
 	db, err := config.LoadInstalled()
 	if err != nil {
 		return err
@@ -134,6 +162,7 @@ func recordInstall(pkgID string, pkg *registry.Package) error {
 		DisplayName: pkg.Name,
 		Version:     pkg.Version,
 		Type:        pkg.Type,
+		InstallPath: installDir,
 		InstalledAt: time.Now().Format(time.RFC3339),
 	}
 

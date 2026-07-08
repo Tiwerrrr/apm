@@ -79,6 +79,32 @@ func main() {
 			os.Exit(1)
 		}
 
+	case "upgrade-all":
+		if err := commands.UpgradeAll(); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "export":
+		if len(os.Args) < 3 {
+			console.Error("Usage: apm export <file.txt>")
+			os.Exit(1)
+		}
+		if err := commands.Export(os.Args[2]); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "import":
+		if len(os.Args) < 3 {
+			console.Error("Usage: apm import <file.txt>")
+			os.Exit(1)
+		}
+		if err := commands.Import(os.Args[2]); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
 	case "version", "v", "--version", "-v":
 		fmt.Printf("APM (Awesome Package Manager) v%s\n", config.Version)
 
@@ -103,6 +129,9 @@ func printUsage() {
 	fmt.Printf("    %s%sremove%s  <package>    Remove an installed package\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%supdate%s               Update the package registry from GitHub\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%supgrade%s              Upgrade APM itself to the latest release\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%supgrade-all%s          Upgrade all installed packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sexport%s  <file>       Export installed packages list\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%simport%s  <file>       Install packages from a list\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%ssearch%s  <query>      Search for packages\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%slist%s                 Show installed packages\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%slist-all%s             Show all available packages\n", console.Bold, console.BrightCyan, console.Reset)

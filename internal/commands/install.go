@@ -44,11 +44,32 @@ func Install(pkgID string) error {
 		return fmt.Errorf("package '%s' not found in registry", pkgID)
 	}
 
+	// 1. Resolve Dependencies
+	for _, depID := range pkg.Dependencies {
+		if !installer.IsInstalled(depID) {
+			console.Info("Installing dependency: %s", console.PackageName(depID))
+			if err := Install(depID); err != nil {
+				return fmt.Errorf("failed to install dependency %s: %w", depID, err)
+			}
+		}
+	}
+
 	// Check if already installed
 	if installer.IsInstalled(pkgID) {
 		console.Warning("%s is already installed", console.PackageName(pkg.Name))
 		console.Info("Use %sapm remove %s%s first to reinstall", console.Bold, pkgID, console.Reset)
 		return nil
+	}
+
+	// 2. Dynamic GitHub Fetch
+	if pkg.GithubRepo != "" {
+		console.Step("🔍", "Querying GitHub API for latest release of %s...", pkg.GithubRepo)
+		ghUrl, ghVersion, _, err := installer.FetchLatestGitHubAsset(pkg.GithubRepo, pkg.AssetRegex)
+		if err != nil {
+			return fmt.Errorf("failed to fetch latest GitHub release: %w", err)
+		}
+		pkg.URL = ghUrl
+		pkg.Version = ghVersion
 	}
 
 	// Display what we're installing
