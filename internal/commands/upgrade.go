@@ -127,9 +127,20 @@ func UpgradeSelf() error {
 	// Start the installer and exit
 	cmd := exec.Command(tempInstaller)
 	if err := cmd.Start(); err != nil {
-		// Rollback rename if failed to start
-		os.Rename(oldExePath, exePath)
-		return fmt.Errorf("failed to start new installer: %w", err)
+		errStr := err.Error()
+		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") {
+			console.Warning("Обновление требует прав Администратора. Подтвердите запрос UAC...")
+			psCmd := fmt.Sprintf(`Start-Process -FilePath "%s" -Verb RunAs`, tempInstaller)
+			elevCmd := exec.Command("powershell", "-NoProfile", "-Command", psCmd)
+			if elevErr := elevCmd.Start(); elevErr != nil {
+				os.Rename(oldExePath, exePath)
+				return fmt.Errorf("elevated installer failed to start: %w", elevErr)
+			}
+		} else {
+			// Rollback rename if failed to start
+			os.Rename(oldExePath, exePath)
+			return fmt.Errorf("failed to start new installer: %w", err)
+		}
 	}
 
 	os.Exit(0)

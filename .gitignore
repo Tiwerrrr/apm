@@ -26,3 +26,4 @@ apm.exe.old
 release.ps1
 push.ps1
 docker-compose.yml
+docs/
