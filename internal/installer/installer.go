@@ -219,10 +219,37 @@ func runUninstallCommand(cmdStr string) error {
 		}
 	}
 
-	cmd := exec.Command("cmd", "/C", cmdStr)
+	args := splitArgs(cmdStr)
+	if len(args) == 0 {
+		return fmt.Errorf("empty uninstall command")
+	}
+
+	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	return cmd.Run()
+	
+	if err := cmd.Run(); err != nil {
+		errStr := err.Error()
+		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") {
+			console.Warning("Удаление требует прав Администратора. Подтвердите запрос UAC...")
+			
+			argsListStr := ""
+			if len(args) > 1 {
+				argsListStr = strings.Join(args[1:], " ")
+			}
+			
+			psCmd := fmt.Sprintf(`Start-Process -FilePath "%s" -ArgumentList '%s' -Verb RunAs -Wait`, args[0], argsListStr)
+			elevCmd := exec.Command("powershell", "-NoProfile", "-Command", psCmd)
+			elevCmd.Stdout = os.Stdout
+			elevCmd.Stderr = os.Stderr
+			if elevErr := elevCmd.Run(); elevErr != nil {
+				return fmt.Errorf("elevated uninstaller failed: %w", elevErr)
+			}
+		} else {
+			return err
+		}
+	}
+	return nil
 }
 
 // splitArgs splits a command line arguments string respecting quotes
