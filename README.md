@@ -1,0 +1,117 @@
+# APM — Awesome Package Manager for Windows
+
+<p align="center">
+  <strong>🚀 Быстрый и удобный пакетный менеджер для Windows</strong>
+</p>
+
+```
+     █████╗ ██████╗ ███╗   ███╗
+    ██╔══██╗██╔══██╗████╗ ████║
+    ███████║██████╔╝██╔████╔██║
+    ██╔══██║██╔═══╝ ██║╚██╔╝██║
+    ██║  ██║██║     ██║ ╚═╝ ██║
+    ╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝
+```
+
+## 📋 О проекте
+
+APM (Awesome Package Manager) — это CLI-утилита для установки, удаления и поиска программ в Windows. Написана на Go, компилируется в один `.exe` без зависимостей.
+
+**30+ популярных пакетов** уже в реестре: Chrome, Firefox, VLC, OBS Studio, VS Code, Git, Node.js, Python, Telegram, Discord, Steam и многое другое.
+
+## ⚡ Быстрый старт
+
+```bash
+# Поиск пакета
+apm search obs
+# Вывод: obs-studio
+
+apm search google
+# Вывод: google-chrome, google-drive
+
+# Установка
+apm install obs-studio
+apm install google-chrome
+
+# Удаление
+apm remove obs-studio
+
+# Список установленных
+apm list
+
+# Все доступные пакеты
+apm list-all
+```
+
+## 🛠 Команды
+
+| Команда | Алиас | Описание |
+|---------|-------|----------|
+| `apm install <package>` | `apm i` | Установить пакет |
+| `apm remove <package>` | `apm rm` | Удалить пакет |
+| `apm search <query>` | `apm s` | Поиск пакетов |
+| `apm list` | `apm ls` | Установленные пакеты |
+| `apm list-all` | | Все доступные пакеты |
+| `apm version` | `apm -v` | Версия APM |
+| `apm help` | `apm -h` | Справка |
+
+## 📦 Доступные пакеты
+
+| Категория | Пакеты |
+|-----------|--------|
+| 🌐 Браузеры | `google-chrome`, `firefox` |
+| 💬 Мессенджеры | `telegram`, `discord` |
+| 🎮 Игры | `steam` |
+| 🎵 Медиа | `vlc`, `spotify`, `obs-studio`, `audacity`, `handbrake`, `kdenlive` |
+| 💻 Разработка | `vscode`, `git`, `nodejs`, `python`, `notepadplusplus` |
+| 📁 Утилиты | `7zip`, `winrar`, `everything`, `powertoys`, `sharex` |
+| 🎨 Графика/3D | `gimp`, `blender` |
+| ☁️ Облако | `google-drive` |
+| 📧 Почта | `thunderbird` |
+| 🌐 Сеть | `putty`, `filezilla`, `wireshark`, `qbittorrent` |
+| 📄 Офис | `libreoffice` |
+
+## 🔧 Сборка из исходников
+
+```bash
+# Требуется Go 1.22+
+git clone https://github.com/apm-cli/apm.git
+cd apm
+go build -o apm.exe .
+```
+
+## 📁 Структура проекта
+
+```
+APM/
+├── main.go                        # Точка входа CLI
+├── go.mod                         # Go модуль
+├── data/
+│   └── registry.json              # Реестр пакетов (30+ программ)
+└── internal/
+    ├── commands/
+    │   ├── install.go             # Команда install
+    │   ├── remove.go              # Команда remove
+    │   ├── search.go              # Команда search
+    │   └── list.go                # Команды list / list-all
+    ├── config/
+    │   └── config.go              # Пути и база установленных пакетов
+    ├── console/
+    │   └── console.go             # Цветной вывод, таблицы, прогресс-бар
+    ├── downloader/
+    │   └── downloader.go          # Скачивание файлов с прогресс-баром
+    ├── installer/
+    │   └── installer.go           # Silent-установка и удаление
+    └── registry/
+        └── registry.go            # Загрузка и поиск по реестру
+```
+
+## ⚙️ Как это работает
+
+1. **Search** — ищет по ID, имени, тегам и описанию с ранжированием результатов
+2. **Install** — скачивает установщик с прогресс-баром → запускает тихую установку (`/S`, `/quiet`) → записывает в базу
+3. **Remove** — находит деинсталлятор в реестре Windows → запускает тихое удаление → убирает из базы
+
+## 📜 Лицензия
+
+MIT

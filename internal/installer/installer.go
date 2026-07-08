@@ -1,0 +1,241 @@
+package installer
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
+	"time"
+
+	"github.com/apm-cli/apm/internal/config"
+	"github.com/apm-cli/apm/internal/console"
+	"github.com/apm-cli/apm/internal/registry"
+)
+
+// Install installs a package from the downloaded file
+func Install(pkg *registry.Package, pkgID string, filePath string) error {
+	console.Step("🔧", "Running installer (silent mode)...")
+
+	ext := strings.ToLower(filepath.Ext(filePath))
+
+	var cmd *exec.Cmd
+
+	switch ext {
+	case ".msi":
+		// MSI packages use msiexec
+		args := []string{"/i", filePath}
+		if pkg.SilentArgs != "" {
+			args = append(args, splitArgs(pkg.SilentArgs)...)
+		}
+		cmd = exec.Command("msiexec.exe", args...)
+
+	case ".exe":
+		// EXE packages use the silent args directly
+		args := splitArgs(pkg.SilentArgs)
+		cmd = exec.Command(filePath, args...)
+
+	default:
+		return fmt.Errorf("unsupported installer format: %s", ext)
+	}
+
+	// Run the installer
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("installer failed: %w", err)
+	}
+
+	// Record the installation
+	if err := recordInstall(pkgID, pkg); err != nil {
+		console.Warning("Package installed but failed to record: %v", err)
+	}
+
+	return nil
+}
+
+// Uninstall removes a package
+func Uninstall(pkgID string) error {
+	db, err := config.LoadInstalled()
+	if err != nil {
+		return fmt.Errorf("failed to load installed packages: %w", err)
+	}
+
+	installed, ok := db.Packages[pkgID]
+	if !ok {
+		return fmt.Errorf("package '%s' is not installed via APM", pkgID)
+	}
+
+	console.Step("🗑", "Removing %s...", console.PackageName(installed.DisplayName))
+
+	if installed.Type == "portable" && installed.InstallPath != "" {
+		// Portable: remove directory
+		if err := os.RemoveAll(installed.InstallPath); err != nil {
+			return fmt.Errorf("failed to remove portable app: %w", err)
+		}
+	} else {
+		// Installer: try to find and run uninstaller from registry
+		if err := runWindowsUninstall(installed.DisplayName); err != nil {
+			console.Warning("Automatic uninstall failed: %v", err)
+			console.Info("Try uninstalling manually via Windows Settings > Apps")
+			// Still remove from our tracking
+		}
+	}
+
+	// Remove from installed database
+	delete(db.Packages, pkgID)
+	if err := config.SaveInstalled(db); err != nil {
+		return fmt.Errorf("failed to update installed database: %w", err)
+	}
+
+	return nil
+}
+
+// IsInstalled checks if a package is already installed
+func IsInstalled(pkgID string) bool {
+	db, err := config.LoadInstalled()
+	if err != nil {
+		return false
+	}
+	_, ok := db.Packages[pkgID]
+	return ok
+}
+
+// recordInstall adds a package to the installed database
+func recordInstall(pkgID string, pkg *registry.Package) error {
+	db, err := config.LoadInstalled()
+	if err != nil {
+		return err
+	}
+
+	db.Packages[pkgID] = config.InstalledPackage{
+		Name:        pkgID,
+		DisplayName: pkg.Name,
+		Version:     pkg.Version,
+		Type:        pkg.Type,
+		InstalledAt: time.Now().Format(time.RFC3339),
+	}
+
+	return config.SaveInstalled(db)
+}
+
+// runWindowsUninstall attempts to find and run the Windows uninstaller
+func runWindowsUninstall(displayName string) error {
+	// Search in Windows registry for the uninstall command
+	// We check both HKLM and HKCU uninstall registry keys
+	regPaths := []string{
+		`HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall`,
+		`HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall`,
+		`HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall`,
+	}
+
+	for _, regPath := range regPaths {
+		cmd := exec.Command("reg", "query", regPath, "/s", "/f", displayName, "/d")
+		output, err := cmd.Output()
+		if err != nil {
+			continue
+		}
+
+		// Parse the output to find the UninstallString
+		lines := strings.Split(string(output), "\n")
+		for _, line := range lines {
+			line = strings.TrimSpace(line)
+			if strings.HasPrefix(line, "HKEY_") {
+				// Found a registry key, query for QuietUninstallString or UninstallString
+				for _, valueName := range []string{"QuietUninstallString", "UninstallString"} {
+					qCmd := exec.Command("reg", "query", line, "/v", valueName)
+					qOutput, err := qCmd.Output()
+					if err != nil {
+						continue
+					}
+					// Extract the uninstall command
+					uninstallCmd := parseRegValue(string(qOutput), valueName)
+					if uninstallCmd != "" {
+						console.Step("🔧", "Running uninstaller...")
+						return runUninstallCommand(uninstallCmd)
+					}
+				}
+			}
+		}
+	}
+
+	return fmt.Errorf("uninstaller not found for '%s'", displayName)
+}
+
+// parseRegValue extracts a value from reg query output
+func parseRegValue(output string, valueName string) string {
+	lines := strings.Split(output, "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if strings.Contains(line, valueName) {
+			parts := strings.SplitN(line, "REG_SZ", 2)
+			if len(parts) == 2 {
+				return strings.TrimSpace(parts[1])
+			}
+			parts = strings.SplitN(line, "REG_EXPAND_SZ", 2)
+			if len(parts) == 2 {
+				return strings.TrimSpace(parts[1])
+			}
+		}
+	}
+	return ""
+}
+
+// runUninstallCommand runs an uninstall command string
+func runUninstallCommand(cmdStr string) error {
+	// Try to add silent flags
+	cmdStr = strings.TrimSpace(cmdStr)
+
+	// Check if it's an msiexec command
+	if strings.Contains(strings.ToLower(cmdStr), "msiexec") {
+		if !strings.Contains(strings.ToLower(cmdStr), "/quiet") {
+			cmdStr += " /quiet /norestart"
+		}
+	} else {
+		// For exe uninstallers, try common silent flags
+		if !strings.Contains(cmdStr, "/S") && !strings.Contains(cmdStr, "/silent") {
+			cmdStr += " /S"
+		}
+	}
+
+	cmd := exec.Command("cmd", "/C", cmdStr)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
+}
+
+// splitArgs splits a command line arguments string respecting quotes
+func splitArgs(s string) []string {
+	var args []string
+	var current strings.Builder
+	inQuote := false
+	quoteChar := byte(0)
+
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if inQuote {
+			if c == quoteChar {
+				inQuote = false
+			} else {
+				current.WriteByte(c)
+			}
+		} else if c == '"' || c == '\'' {
+			inQuote = true
+			quoteChar = c
+		} else if c == ' ' {
+			if current.Len() > 0 {
+				args = append(args, current.String())
+				current.Reset()
+			}
+		} else {
+			current.WriteByte(c)
+		}
+	}
+
+	if current.Len() > 0 {
+		args = append(args, current.String())
+	}
+
+	return args
+}
