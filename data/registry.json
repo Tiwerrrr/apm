@@ -587,6 +587,19 @@
       "uninstall_name": "Epic Games Launcher",
       "homepage": "https://store.epicgames.com",
       "tags": ["epic", "games", "store", "launcher"]
+    },
+    "imageglass": {
+      "name": "ImageGlass",
+      "description": "A lightweight, versatile image viewer for Windows.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/d2phap/ImageGlass/releases/latest/download/ImageGlass_9.1.7.121_x64.msi",
+      "github_repo": "d2phap/ImageGlass",
+      "asset_regex": "ImageGlass_.*_x64.*\\.msi",
+      "silent_args": "/quiet /norestart",
+      "uninstall_name": "ImageGlass",
+      "homepage": "https://imageglass.org",
+      "tags": ["image", "viewer", "photo", "picture"]
     }
   }
 }
