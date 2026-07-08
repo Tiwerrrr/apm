@@ -21,3 +21,5 @@ go.work
 apm
 setup
 apm-installer
+apm.exe.old
+*.tmp
