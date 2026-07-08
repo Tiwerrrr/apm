@@ -44,7 +44,27 @@ func Install(pkg *registry.Package, pkgID string, filePath string) error {
 	cmd.Stderr = os.Stderr
 
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("installer failed: %w", err)
+		errStr := err.Error()
+		// Проверяем, требует ли установщик прав администратора (exit code 740)
+		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") {
+			console.Warning("Установщик требует прав Администратора. Подтвердите запрос UAC...")
+			
+			var psCmd string
+			if ext == ".msi" {
+				psCmd = fmt.Sprintf(`Start-Process -FilePath "msiexec.exe" -ArgumentList '/i "%s" %s' -Verb RunAs -Wait`, filePath, pkg.SilentArgs)
+			} else {
+				psCmd = fmt.Sprintf(`Start-Process -FilePath "%s" -ArgumentList '%s' -Verb RunAs -Wait`, filePath, pkg.SilentArgs)
+			}
+
+			elevCmd := exec.Command("powershell", "-NoProfile", "-Command", psCmd)
+			elevCmd.Stdout = os.Stdout
+			elevCmd.Stderr = os.Stderr
+			if elevErr := elevCmd.Run(); elevErr != nil {
+				return fmt.Errorf("elevated installer failed: %w", elevErr)
+			}
+		} else {
+			return fmt.Errorf("installer failed: %w", err)
+		}
 	}
 
 	// Record the installation
