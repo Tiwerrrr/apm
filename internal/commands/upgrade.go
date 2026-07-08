@@ -105,11 +105,12 @@ func UpgradeSelf() error {
 	console.Step("⬇", "Downloading apm-installer.exe...")
 
 	tempDir := os.TempDir()
-	tempInstaller := filepath.Join(tempDir, "apm-installer-new.exe")
-
-	if err := downloader.DownloadFile(installerURL, tempInstaller, installerSize); err != nil {
+	
+	downloadedPath, err := downloader.Download(installerURL, tempDir, "apm-installer-new.exe")
+	if err != nil {
 		return fmt.Errorf("failed to download installer: %w", err)
 	}
+	tempInstaller := downloadedPath
 
 	// Rename current executable to .old so we can overwrite it
 	exePath, err := os.Executable()
