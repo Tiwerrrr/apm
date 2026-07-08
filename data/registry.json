@@ -435,6 +435,65 @@
       "uninstall_name": "Termius",
       "homepage": "https://termius.com/",
       "tags": ["termius", "ssh", "terminal", "client"]
+    },
+    "vencord": {
+      "name": "Vencord Installer",
+      "description": "Vencord Installer for Discord",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/Vencord/Installer/releases/latest/download/VencordInstaller.exe",
+      "github_repo": "Vencord/Installer",
+      "asset_regex": "VencordInstaller\\.exe",
+      "silent_args": "",
+      "uninstall_name": "Vencord",
+      "homepage": "https://vencord.dev",
+      "tags": ["vencord", "discord", "mod"]
+    },
+    "capcut": {
+      "name": "CapCut",
+      "description": "Free all-in-one video editor for everyone to create anything anywhere.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://lf16-capcut.ttwstatic.com/obj/capcutpc-packages-us/1_5_0/capcut_pc_0_0_0_0_installer.exe",
+      "silent_args": "/S",
+      "uninstall_name": "CapCut",
+      "homepage": "https://www.capcut.com/",
+      "tags": ["capcut", "video", "editor", "bytedance"]
+    },
+    "kdeconnect": {
+      "name": "KDE Connect",
+      "description": "A project that enables all your devices to communicate with each other.",
+      "version": "23.08.5",
+      "type": "installer",
+      "url": "https://download.kde.org/stable/kdeconnect/23.08.5/win64/kdeconnect-kde-23.08.5-windows-cl-msvc2019-x86_64.exe",
+      "silent_args": "/S",
+      "uninstall_name": "KDE Connect",
+      "homepage": "https://kdeconnect.kde.org/",
+      "tags": ["kde", "connect", "android", "sync"]
+    },
+    "feishin": {
+      "name": "Feishin",
+      "description": "A modern self-hosted music player.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/jeffvli/feishin/releases/latest/download/Feishin-0.9.1-win-setup.exe",
+      "github_repo": "jeffvli/feishin",
+      "asset_regex": "Feishin.*win-setup\\.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Feishin",
+      "homepage": "https://github.com/jeffvli/feishin",
+      "tags": ["music", "player", "navidrome", "jellyfin"]
+    },
+    "winscp": {
+      "name": "WinSCP",
+      "description": "Free SFTP, SCP and FTP client for Windows.",
+      "version": "6.3.2",
+      "type": "installer",
+      "url": "https://winscp.net/download/WinSCP-6.3.2-Setup.exe",
+      "silent_args": "/VERYSILENT /NORESTART",
+      "uninstall_name": "WinSCP",
+      "homepage": "https://winscp.net/",
+      "tags": ["winscp", "ftp", "sftp", "client", "ssh"]
     }
   }
 }
