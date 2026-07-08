@@ -329,6 +329,83 @@
       "uninstall_name": "LibreOffice",
       "homepage": "https://www.libreoffice.org",
       "tags": ["libreoffice", "office", "word", "excel", "writer", "calc", "document"]
+    },
+    "zen": {
+      "name": "Zen Browser",
+      "description": "Experience tranquility while browsing the web.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/zen-browser/desktop/releases/latest/download/zen.installer.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Zen Browser",
+      "homepage": "https://zen-browser.app/",
+      "tags": ["zen", "browser", "web", "firefox"]
+    },
+    "prismlauncher": {
+      "name": "PrismLauncher",
+      "description": "A custom launcher for Minecraft that allows you to easily manage multiple installations.",
+      "version": "11.0.2",
+      "type": "installer",
+      "url": "https://github.com/prismlauncher/PrismLauncher/releases/latest/download/PrismLauncher-Windows-MSVC-Setup-11.0.2.exe",
+      "silent_args": "/S",
+      "uninstall_name": "PrismLauncher",
+      "homepage": "https://prismlauncher.org/",
+      "tags": ["minecraft", "launcher", "prism", "games"]
+    },
+    "prismlauncher-cracked": {
+      "name": "PrismLauncher Cracked",
+      "description": "A custom launcher for Minecraft (Cracked version).",
+      "version": "11.0.2-1",
+      "type": "installer",
+      "url": "https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest/download/PrismLauncher-Windows-MSVC-Setup-11.0.2-1.exe",
+      "silent_args": "/S",
+      "uninstall_name": "PrismLauncher",
+      "homepage": "https://github.com/Diegiwg/PrismLauncher-Cracked",
+      "tags": ["minecraft", "launcher", "prism", "cracked", "games"]
+    },
+    "steam": {
+      "name": "Steam",
+      "description": "The ultimate destination for playing, discussing, and creating games.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Steam",
+      "homepage": "https://store.steampowered.com/",
+      "tags": ["steam", "games", "valve", "store"]
+    },
+    "rust": {
+      "name": "Rust (rustup)",
+      "description": "A language empowering everyone to build reliable and efficient software.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe",
+      "silent_args": "-y",
+      "uninstall_name": "Rust",
+      "homepage": "https://www.rust-lang.org/",
+      "tags": ["rust", "programming", "language", "compiler", "rustup"]
+    },
+    "python": {
+      "name": "Python 3",
+      "description": "A programming language that lets you work quickly and integrate systems more effectively.",
+      "version": "3.12.2",
+      "type": "installer",
+      "url": "https://www.python.org/ftp/python/3.12.2/python-3.12.2-amd64.exe",
+      "silent_args": "/quiet InstallAllUsers=0 PrependPath=1 Include_test=0",
+      "uninstall_name": "Python 3",
+      "homepage": "https://www.python.org/",
+      "tags": ["python", "programming", "language"]
+    },
+    "golang": {
+      "name": "Go (Golang)",
+      "description": "Build simple, secure, scalable systems with Go.",
+      "version": "1.22.1",
+      "type": "installer",
+      "url": "https://go.dev/dl/go1.22.1.windows-amd64.msi",
+      "silent_args": "/quiet",
+      "uninstall_name": "Go Programming Language",
+      "homepage": "https://go.dev/",
+      "tags": ["go", "golang", "programming", "language", "compiler"]
     }
   }
 }
