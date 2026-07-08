@@ -6,10 +6,9 @@ import (
 	"strings"
 
 	"github.com/apm-cli/apm/internal/commands"
+	"github.com/apm-cli/apm/internal/config"
 	"github.com/apm-cli/apm/internal/console"
 )
-
-const version = "1.0.0"
 
 func main() {
 	if len(os.Args) < 2 {
@@ -74,8 +73,14 @@ func main() {
 			os.Exit(1)
 		}
 
+	case "upgrade":
+		if err := commands.UpgradeSelf(); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
 	case "version", "v", "--version", "-v":
-		fmt.Printf("APM (Awesome Package Manager) v%s\n", version)
+		fmt.Printf("APM (Awesome Package Manager) v%s\n", config.Version)
 
 	case "help", "h", "--help", "-h":
 		printUsage()
@@ -97,6 +102,7 @@ func printUsage() {
 	fmt.Printf("    %s%sinstall%s <package>    Install a package\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%sremove%s  <package>    Remove an installed package\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%supdate%s               Update the package registry from GitHub\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%supgrade%s              Upgrade APM itself to the latest release\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%ssearch%s  <query>      Search for packages\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%slist%s                 Show installed packages\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Printf("    %s%slist-all%s             Show all available packages\n", console.Bold, console.BrightCyan, console.Reset)

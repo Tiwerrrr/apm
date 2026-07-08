@@ -20,6 +20,11 @@ var (
 	RegistryFile string
 )
 
+const (
+	// Version is the current APM version
+	Version = "1.0.0"
+)
+
 func init() {
 	localAppData := os.Getenv("LOCALAPPDATA")
 	if localAppData == "" {
@@ -41,6 +46,13 @@ func EnsureDirs() error {
 			return err
 		}
 	}
+
+	// Cleanup old exe files from self-update
+	oldExe := filepath.Join(RootDir, "bin", "apm.exe.old")
+	if _, err := os.Stat(oldExe); err == nil {
+		os.Remove(oldExe)
+	}
+
 	return nil
 }
 
