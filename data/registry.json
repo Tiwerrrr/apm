@@ -513,7 +513,7 @@
       "description": "Cloudflare WARP replaces the connection between your device and the Internet with a modern, optimized, protocol.",
       "version": "latest",
       "type": "installer",
-      "url": "https://cloudflarewarp.com/Cloudflare_WARP_Release-x64.msi",
+      "url": "https://1111-releases.cloudflareclient.com/windows/Cloudflare_WARP_Release-x64.msi",
       "silent_args": "/quiet /norestart",
       "uninstall_name": "Cloudflare WARP",
       "homepage": "https://1.1.1.1/",
