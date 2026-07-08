@@ -424,6 +424,17 @@
       "bin": "AyuGram.exe",
       "homepage": "https://github.com/AyuGram/AyuGramDesktop",
       "tags": ["telegram", "ayugram", "chat", "messenger"]
+    },
+    "termius": {
+      "name": "Termius",
+      "description": "An SSH client that works on desktop and mobile.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://download.termius.com/windows/Install%20Termius.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Termius",
+      "homepage": "https://termius.com/",
+      "tags": ["termius", "ssh", "terminal", "client"]
     }
   }
 }
