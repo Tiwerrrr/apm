@@ -507,6 +507,65 @@
       "uninstall_name": "MPC-HC",
       "homepage": "https://github.com/clsid2/mpc-hc",
       "tags": ["mpc-hc", "media", "player", "video", "audio", "cinema"]
+    },
+    "warp": {
+      "name": "Cloudflare WARP",
+      "description": "Cloudflare WARP replaces the connection between your device and the Internet with a modern, optimized, protocol.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://cloudflarewarp.com/Cloudflare_WARP_Release-x64.msi",
+      "silent_args": "/quiet /norestart",
+      "uninstall_name": "Cloudflare WARP",
+      "homepage": "https://1.1.1.1/",
+      "tags": ["warp", "vpn", "cloudflare", "1.1.1.1"]
+    },
+    "mullvad": {
+      "name": "Mullvad VPN",
+      "description": "The Mullvad VPN client app for desktop.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://mullvad.net/download/app/exe/latest/",
+      "github_repo": "mullvad/mullvadvpn-app",
+      "asset_regex": "MullvadVPN-.*\\.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Mullvad VPN",
+      "homepage": "https://mullvad.net",
+      "tags": ["mullvad", "vpn", "privacy"]
+    },
+    "protonvpn": {
+      "name": "Proton VPN",
+      "description": "Proton VPN is a community-supported VPN service from the creators of ProtonMail.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/ProtonVPN/windows-app/releases/latest/download/ProtonVPN_win_latest.exe",
+      "github_repo": "ProtonVPN/windows-app",
+      "asset_regex": "ProtonVPN.*\\.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Proton VPN",
+      "homepage": "https://protonvpn.com",
+      "tags": ["proton", "vpn", "privacy"]
+    },
+    "openvpn": {
+      "name": "OpenVPN Connect",
+      "description": "OpenVPN Connect is the official VPN application for Windows.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://openvpn.net/downloads/openvpn-connect-v3-windows.msi",
+      "silent_args": "/quiet /norestart",
+      "uninstall_name": "OpenVPN Connect",
+      "homepage": "https://openvpn.net",
+      "tags": ["openvpn", "vpn", "client"]
+    },
+    "tor-browser": {
+      "name": "Tor Browser",
+      "description": "Protect yourself against tracking, surveillance, and censorship.",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://www.torproject.org/dist/torbrowser/14.0.3/tor-browser-windows-x86_64-portable-14.0.3.exe",
+      "silent_args": "/S",
+      "uninstall_name": "Tor Browser",
+      "homepage": "https://www.torproject.org",
+      "tags": ["tor", "browser", "privacy", "onion"]
     }
   }
 }
