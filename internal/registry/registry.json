@@ -259,6 +259,18 @@
             "version": "latest",
             "url": "https://example.com/download/apache-directory-studio"
         },
+        "apache-httpd": {
+            "name": "Apache HTTP Server",
+            "description": "The Apache HTTP Server Project",
+            "type": "portable",
+            "tags": [
+                "web",
+                "server",
+                "http"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/apache-httpd"
+        },
         "arduino-ide": {
             "name": "Arduino IDE",
             "description": "Open-source electronics prototyping platform IDE",
@@ -394,18 +406,6 @@
                 "devops"
             ]
         },
-        "balena-etcher": {
-            "name": "balenaEtcher",
-            "description": "Flash OS images to SD cards & USB drives, safely and easily",
-            "type": "installer",
-            "tags": [
-                "usb",
-                "boot",
-                "flash"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/balena-etcher"
-        },
         "barrier": {
             "name": "Barrier",
             "description": "Open-source KVM software to share mouse and keyboard between computers",
@@ -442,18 +442,6 @@
                 "terminal",
                 "syntax"
             ]
-        },
-        "battle-net": {
-            "name": "Battle.net",
-            "description": "Blizzard Entertainment games launcher",
-            "type": "installer",
-            "tags": [
-                "games",
-                "launcher",
-                "blizzard"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/battle-net"
         },
         "battlenet": {
             "name": "Battle.net Desktop App",
@@ -607,6 +595,18 @@
                 "runtime",
                 "dev"
             ]
+        },
+        "caddy": {
+            "name": "Caddy",
+            "description": "Fast and extensible multi-platform HTTP/1-2-3 web server with automatic HTTPS",
+            "type": "portable",
+            "tags": [
+                "web",
+                "server",
+                "http"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/caddy"
         },
         "calibre": {
             "name": "calibre",
@@ -1579,18 +1579,6 @@
                 "cli"
             ]
         },
-        "fdm": {
-            "name": "Free Download Manager",
-            "description": "Fast and reliable internet download manager",
-            "type": "installer",
-            "tags": [
-                "download",
-                "manager",
-                "tool"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/fdm"
-        },
         "feishin": {
             "name": "Feishin",
             "description": "A modern self-hosted music player.",
@@ -1798,6 +1786,18 @@
                 "audiophile"
             ]
         },
+        "forgejo": {
+            "name": "Forgejo",
+            "description": "Beyond coding. We forge.",
+            "type": "installer",
+            "tags": [
+                "git",
+                "server",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/forgejo"
+        },
         "fork": {
             "name": "Fork",
             "description": "Fast and friendly git client for Windows",
@@ -2004,6 +2004,18 @@
                 "vcs"
             ]
         },
+        "gitea": {
+            "name": "Gitea",
+            "description": "Git with a cup of tea, painless self-hosted git service",
+            "type": "installer",
+            "tags": [
+                "git",
+                "server",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/gitea"
+        },
         "github-desktop": {
             "name": "GitHub Desktop",
             "description": "Simple collaboration from your desktop for GitHub",
@@ -2057,18 +2069,6 @@
                 "wm"
             ]
         },
-        "go": {
-            "name": "Go",
-            "description": "An open source programming language supported by Google",
-            "type": "installer",
-            "tags": [
-                "go",
-                "language",
-                "development"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/go"
-        },
         "godot": {
             "name": "Godot Engine",
             "description": "Free and open source 2D and 3D game engine",
@@ -2116,6 +2116,18 @@
                 "store",
                 "drm-free"
             ]
+        },
+        "gogs": {
+            "name": "Gogs",
+            "description": "A painless self-hosted Git service",
+            "type": "installer",
+            "tags": [
+                "git",
+                "server",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/gogs"
         },
         "golang": {
             "name": "Go (Golang)",
@@ -2283,6 +2295,18 @@
                 "transcoder",
                 "encoding"
             ]
+        },
+        "haproxy": {
+            "name": "HAProxy",
+            "description": "The Reliable, High Performance TCP/HTTP Load Balancer",
+            "type": "portable",
+            "tags": [
+                "proxy",
+                "load-balancer",
+                "network"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/haproxy"
         },
         "heidisql": {
             "name": "HeidiSQL",
@@ -2534,18 +2558,6 @@
             ],
             "version": "latest",
             "url": "https://example.com/download/jan"
-        },
-        "java": {
-            "name": "Java",
-            "description": "A high-level, class-based, object-oriented programming language",
-            "type": "installer",
-            "tags": [
-                "java",
-                "language",
-                "development"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/java"
         },
         "jdownloader": {
             "name": "JDownloader 2",
@@ -2999,6 +3011,18 @@
             "version": "latest",
             "url": "https://example.com/download/librewolf"
         },
+        "lighttpd": {
+            "name": "lighttpd",
+            "description": "Security, speed, compliance, and flexibility",
+            "type": "portable",
+            "tags": [
+                "web",
+                "server",
+                "http"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/lighttpd"
+        },
         "lively-wallpaper": {
             "name": "Lively Wallpaper",
             "description": "Free and open-source animated desktop wallpaper application",
@@ -3073,18 +3097,6 @@
                 "audio",
                 "production"
             ]
-        },
-        "lmstudio": {
-            "name": "LM Studio",
-            "description": "Discover, download, and run local LLMs",
-            "type": "installer",
-            "tags": [
-                "ai",
-                "llm",
-                "chat"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/lmstudio"
         },
         "localsend": {
             "name": "LocalSend",
@@ -3331,6 +3343,18 @@
                 "cluster"
             ]
         },
+        "minio": {
+            "name": "MinIO",
+            "description": "High Performance, Kubernetes Native Object Storage",
+            "type": "portable",
+            "tags": [
+                "storage",
+                "s3",
+                "server"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/minio"
+        },
         "mkvtoolnix": {
             "name": "MKVToolNix",
             "description": "Set of tools to create, alter, and inspect MKV files",
@@ -3476,18 +3500,6 @@
                 "vnc",
                 "manager"
             ]
-        },
-        "msi-afterburner": {
-            "name": "MSI Afterburner",
-            "description": "Most used graphics card software for any card",
-            "type": "installer",
-            "tags": [
-                "system",
-                "overclock",
-                "gpu"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/msi-afterburner"
         },
         "msiafterburner": {
             "name": "MSI Afterburner",
@@ -3697,6 +3709,18 @@
                 "security",
                 "adblock"
             ]
+        },
+        "nginx": {
+            "name": "NGINX",
+            "description": "High performance load balancer, web server, & reverse proxy",
+            "type": "portable",
+            "tags": [
+                "web",
+                "server",
+                "proxy"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/nginx"
         },
         "ninja": {
             "name": "Ninja",
@@ -4238,18 +4262,6 @@
                 "extract"
             ]
         },
-        "pgadmin": {
-            "name": "pgAdmin",
-            "description": "The most popular and feature rich Open Source administration and development platform for PostgreSQL",
-            "type": "installer",
-            "tags": [
-                "database",
-                "postgresql",
-                "admin"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/pgadmin"
-        },
         "pgadmin4": {
             "name": "pgAdmin 4",
             "description": "The most popular and feature rich Open Source administration and development platform for PostgreSQL",
@@ -4321,18 +4333,6 @@
                 "steam",
                 "gog"
             ]
-        },
-        "plex": {
-            "name": "Plex Media Server",
-            "description": "Organize, beautify, stream, and share your personal media",
-            "type": "installer",
-            "tags": [
-                "media",
-                "server",
-                "streaming"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/plex"
         },
         "plex-media-server": {
             "name": "Plex Media Server",
@@ -4468,18 +4468,6 @@
                 "cracked",
                 "games"
             ]
-        },
-        "process-hacker": {
-            "name": "Process Hacker",
-            "description": "A free, powerful, multi-purpose tool that helps you monitor system resources",
-            "type": "installer",
-            "tags": [
-                "system",
-                "monitor",
-                "task-manager"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/process-hacker"
         },
         "processhacker": {
             "name": "System Informer (Process Hacker)",
@@ -4795,6 +4783,18 @@
                 "music",
                 "production"
             ]
+        },
+        "redis": {
+            "name": "Redis",
+            "description": "In-memory database that persists on disk",
+            "type": "portable",
+            "tags": [
+                "database",
+                "cache",
+                "server"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/redis"
         },
         "redis-insight": {
             "name": "Redis Insight",
@@ -5875,6 +5875,18 @@
                 "gui"
             ]
         },
+        "traefik": {
+            "name": "Traefik",
+            "description": "The Cloud Native Application Proxy",
+            "type": "portable",
+            "tags": [
+                "proxy",
+                "server",
+                "network"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/traefik"
+        },
         "translucenttb": {
             "name": "TranslucentTB",
             "description": "Make your Windows taskbar translucent or transparent",
@@ -5958,18 +5970,6 @@
             ],
             "version": "latest",
             "url": "https://example.com/download/unity"
-        },
-        "unreal-engine": {
-            "name": "Epic Games Launcher",
-            "description": "Launcher for Unreal Engine and Epic Games",
-            "type": "installer",
-            "tags": [
-                "game",
-                "engine",
-                "launcher"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/unreal-engine"
         },
         "utorrent": {
             "name": "uTorrent",
