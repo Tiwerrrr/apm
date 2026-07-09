@@ -64,6 +64,7 @@ type InstalledPackage struct {
 	Type        string `json:"type"` // "installer" or "portable"
 	InstallPath string `json:"install_path,omitempty"`
 	InstalledAt string `json:"installed_at"`
+	Pinned      bool   `json:"pinned,omitempty"`
 }
 
 // InstalledDB is the database of installed packages

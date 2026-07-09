@@ -7,17 +7,19 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/apm-cli/apm/internal/console"
 )
 
-// progressReader wraps an io.Reader and reports progress
+// progressReader wraps an io.Reader and reports progress with speed and ETA
 type progressReader struct {
-	reader     io.Reader
-	total      int64
-	current    int64
-	barWidth   int
-	lastPct    int
+	reader    io.Reader
+	total     int64
+	current   int64
+	barWidth  int
+	lastPct   int
+	startTime time.Time
 }
 
 func (pr *progressReader) Read(p []byte) (int, error) {
@@ -30,17 +32,45 @@ func (pr *progressReader) Read(p []byte) (int, error) {
 		if pct != pr.lastPct {
 			pr.lastPct = pct
 			bar := console.ProgressBar(pr.current, pr.total, pr.barWidth)
-			fmt.Printf("\r  %s  ⬇  %s / %s  %s",
+
+			// Calculate speed and ETA
+			elapsed := time.Since(pr.startTime).Seconds()
+			speedStr := ""
+			etaStr := ""
+			if elapsed > 0.5 {
+				speed := float64(pr.current) / elapsed
+				speedStr = console.FormatBytes(int64(speed)) + "/s"
+
+				if pr.current < pr.total && speed > 0 {
+					remaining := float64(pr.total-pr.current) / speed
+					if remaining < 60 {
+						etaStr = fmt.Sprintf("ETA %ds", int(remaining))
+					} else {
+						etaStr = fmt.Sprintf("ETA %dm%ds", int(remaining)/60, int(remaining)%60)
+					}
+				}
+			}
+
+			fmt.Printf("\r  %s  ⬇  %s / %s  %s  %s%s",
 				bar,
 				console.FormatBytes(pr.current),
 				console.FormatBytes(pr.total),
+				speedStr,
+				etaStr,
 				strings.Repeat(" ", 5), // Clear leftover chars
 			)
 		}
 	} else {
-		// Unknown size — just show bytes downloaded
-		fmt.Printf("\r  ⬇  Downloaded: %s%s",
+		// Unknown size — show bytes downloaded with speed
+		elapsed := time.Since(pr.startTime).Seconds()
+		speedStr := ""
+		if elapsed > 0.5 {
+			speed := float64(pr.current) / elapsed
+			speedStr = "  " + console.FormatBytes(int64(speed)) + "/s"
+		}
+		fmt.Printf("\r  ⬇  Downloaded: %s%s%s",
 			console.FormatBytes(pr.current),
+			speedStr,
 			strings.Repeat(" ", 10),
 		)
 	}
@@ -93,10 +123,11 @@ func Download(url string, cacheDir string, filename string) (string, error) {
 
 	// Copy with progress
 	pr := &progressReader{
-		reader:   resp.Body,
-		total:    resp.ContentLength,
-		barWidth: 30,
-		lastPct:  -1,
+		reader:    resp.Body,
+		total:     resp.ContentLength,
+		barWidth:  30,
+		lastPct:   -1,
+		startTime: time.Now(),
 	}
 
 	_, err = io.Copy(file, pr)
@@ -110,8 +141,16 @@ func Download(url string, cacheDir string, filename string) (string, error) {
 		return "", fmt.Errorf("failed to save file: %w", err)
 	}
 
+	// Final stats
+	elapsed := time.Since(pr.startTime).Seconds()
+	avgSpeed := ""
+	if elapsed > 0 {
+		speed := float64(pr.current) / elapsed
+		avgSpeed = fmt.Sprintf(" (avg %s/s)", console.FormatBytes(int64(speed)))
+	}
+
 	fmt.Println() // New line after progress bar
-	console.Success("Download complete: %s", console.FormatBytes(pr.current))
+	console.Success("Download complete: %s%s", console.FormatBytes(pr.current), avgSpeed)
 
 	return destPath, nil
 }

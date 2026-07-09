@@ -36,6 +36,12 @@ func UpgradeAll() error {
 			continue // Package no longer in registry
 		}
 
+		// Skip pinned packages
+		if installedPkg.Pinned {
+			console.Info("⊘ Skipping pinned package: %s", console.PackageName(pkgID))
+			continue
+		}
+
 		latestVersion := regPkg.Version
 
 		// If it's a GitHub repo and version is "latest", fetch the real latest version tag

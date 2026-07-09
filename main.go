@@ -22,13 +22,29 @@ func main() {
 	case "install", "i":
 		if len(os.Args) < 3 {
 			console.Error("Missing package name")
-			console.Info("Usage: %sapm install <package>%s", console.Bold, console.Reset)
+			console.Info("Usage: %sapm install <package> [package2] [package3]...%s", console.Bold, console.Reset)
 			os.Exit(1)
 		}
-		pkgID := strings.ToLower(os.Args[2])
-		if err := commands.Install(pkgID); err != nil {
-			console.Error("%v", err)
-			os.Exit(1)
+		// Multi-install: install all packages listed
+		packages := os.Args[2:]
+		failed := 0
+		for idx, pkgID := range packages {
+			pkgID = strings.ToLower(pkgID)
+			if len(packages) > 1 {
+				fmt.Printf("\n%s%s [%d/%d] Installing %s%s\n", console.Bold, console.BrightCyan, idx+1, len(packages), pkgID, console.Reset)
+			}
+			if err := commands.Install(pkgID); err != nil {
+				console.Error("%v", err)
+				failed++
+			}
+		}
+		if len(packages) > 1 {
+			fmt.Println()
+			if failed == 0 {
+				console.Success("All %d packages installed successfully!", len(packages))
+			} else {
+				console.Warning("%d of %d packages installed (%d failed)", len(packages)-failed, len(packages), failed)
+			}
 		}
 
 	case "remove", "uninstall", "rm":
@@ -39,6 +55,18 @@ func main() {
 		}
 		pkgID := strings.ToLower(os.Args[2])
 		if err := commands.Remove(pkgID); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "reinstall", "ri":
+		if len(os.Args) < 3 {
+			console.Error("Missing package name")
+			console.Info("Usage: %sapm reinstall <package>%s", console.Bold, console.Reset)
+			os.Exit(1)
+		}
+		pkgID := strings.ToLower(os.Args[2])
+		if err := commands.Reinstall(pkgID); err != nil {
 			console.Error("%v", err)
 			os.Exit(1)
 		}
@@ -55,6 +83,18 @@ func main() {
 			os.Exit(1)
 		}
 
+	case "info":
+		if len(os.Args) < 3 {
+			console.Error("Missing package name")
+			console.Info("Usage: %sapm info <package>%s", console.Bold, console.Reset)
+			os.Exit(1)
+		}
+		pkgID := strings.ToLower(os.Args[2])
+		if err := commands.Info(pkgID); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
 	case "list", "ls":
 		if err := commands.List(); err != nil {
 			console.Error("%v", err)
@@ -63,6 +103,12 @@ func main() {
 
 	case "list-all", "available":
 		if err := commands.ListAll(); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "outdated":
+		if err := commands.Outdated(); err != nil {
 			console.Error("%v", err)
 			os.Exit(1)
 		}
@@ -111,6 +157,42 @@ func main() {
 			os.Exit(1)
 		}
 
+	case "cleanup", "cache":
+		if err := commands.Cleanup(); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "doctor":
+		if err := commands.Doctor(); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "pin":
+		if len(os.Args) < 3 {
+			console.Error("Missing package name")
+			console.Info("Usage: %sapm pin <package>%s", console.Bold, console.Reset)
+			os.Exit(1)
+		}
+		pkgID := strings.ToLower(os.Args[2])
+		if err := commands.Pin(pkgID); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
+	case "unpin":
+		if len(os.Args) < 3 {
+			console.Error("Missing package name")
+			console.Info("Usage: %sapm unpin <package>%s", console.Bold, console.Reset)
+			os.Exit(1)
+		}
+		pkgID := strings.ToLower(os.Args[2])
+		if err := commands.Unpin(pkgID); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
+		}
+
 	case "version", "v", "--version", "-v":
 		fmt.Printf("APM (Awesome Package Manager) v%s\n", config.Version)
 
@@ -131,22 +213,30 @@ func printUsage() {
 	fmt.Printf("  %s%sUSAGE:%s\n", console.Bold, console.BrightYellow, console.Reset)
 	fmt.Printf("    apm <command> [arguments]\n\n")
 	fmt.Printf("  %s%sCOMMANDS:%s\n", console.Bold, console.BrightYellow, console.Reset)
-	fmt.Printf("    %s%sinstall%s <package>    Install a package\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%sremove%s  <package>    Remove an installed package\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%supdate%s               Update the package registry from GitHub\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%supgrade%s              Upgrade APM itself to the latest release\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%supgrade-all%s          Upgrade all installed packages\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%sexport%s  <file>       Export installed packages list\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%simport%s  <file>       Install packages from a list\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%ssearch%s  <query>      Search for packages\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%slist%s                 Show installed packages\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%slist-all%s             Show all available packages\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%sselfdestruct%s         Permanently uninstall APM and its data\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%sversion%s              Show APM version\n", console.Bold, console.BrightCyan, console.Reset)
-	fmt.Printf("    %s%shelp%s                 Show this help message\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sinstall%s   <pkg> [pkg2]...  Install one or more packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sremove%s    <package>        Remove an installed package\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sreinstall%s <package>        Reinstall a package (remove + install)\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sinfo%s      <package>        Show detailed package information\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%ssearch%s    <query>          Search for packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%slist%s                       Show installed packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%slist-all%s                   Show all available packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%soutdated%s                   Show packages with available updates\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%supdate%s                     Update the package registry from GitHub\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%supgrade%s                    Upgrade APM itself to the latest release\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%supgrade-all%s                Upgrade all installed packages\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%spin%s       <package>        Pin a package version (skip in upgrade-all)\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sunpin%s     <package>        Unpin a package version\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%scleanup%s                    Clear the download cache\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sdoctor%s                     Run diagnostics on APM installation\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sexport%s    <file>           Export installed packages list\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%simport%s    <file>           Install packages from a list\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sselfdestruct%s               Permanently uninstall APM and its data\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%sversion%s                    Show APM version\n", console.Bold, console.BrightCyan, console.Reset)
+	fmt.Printf("    %s%shelp%s                       Show this help message\n", console.Bold, console.BrightCyan, console.Reset)
 	fmt.Println()
 	fmt.Printf("  %s%sALIASES:%s\n", console.Bold, console.BrightYellow, console.Reset)
-	fmt.Printf("    %si%s → install,  %srm%s → remove,  %su%s → update,  %ss%s → search,  %sls%s → list\n",
+	fmt.Printf("    %si%s → install,  %srm%s → remove,  %sri%s → reinstall,  %su%s → update,  %ss%s → search,  %sls%s → list\n",
+		console.BrightCyan, console.Reset,
 		console.BrightCyan, console.Reset,
 		console.BrightCyan, console.Reset,
 		console.BrightCyan, console.Reset,
@@ -155,9 +245,11 @@ func printUsage() {
 	)
 	fmt.Println()
 	fmt.Printf("  %s%sEXAMPLES:%s\n", console.Bold, console.BrightYellow, console.Reset)
-	fmt.Printf("    apm search obs           %s# Find packages related to OBS%s\n", console.Dim, console.Reset)
-	fmt.Printf("    apm install obs-studio   %s# Install OBS Studio%s\n", console.Dim, console.Reset)
-	fmt.Printf("    apm remove obs-studio    %s# Remove OBS Studio%s\n", console.Dim, console.Reset)
-	fmt.Printf("    apm search google        %s# Find Google packages%s\n", console.Dim, console.Reset)
+	fmt.Printf("    apm install firefox obs-studio   %s# Install multiple packages%s\n", console.Dim, console.Reset)
+	fmt.Printf("    apm info telegram                %s# Show package details%s\n", console.Dim, console.Reset)
+	fmt.Printf("    apm search browser               %s# Find browser packages%s\n", console.Dim, console.Reset)
+	fmt.Printf("    apm outdated                     %s# Check for updates%s\n", console.Dim, console.Reset)
+	fmt.Printf("    apm pin obs-studio               %s# Lock OBS version%s\n", console.Dim, console.Reset)
+	fmt.Printf("    apm doctor                       %s# Run diagnostics%s\n", console.Dim, console.Reset)
 	fmt.Println()
 }
