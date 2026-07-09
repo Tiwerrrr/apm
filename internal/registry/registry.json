@@ -461,6 +461,30 @@
                 "overwatch"
             ]
         },
+        "beekeeper-studio": {
+            "name": "Beekeeper Studio",
+            "description": "Modern and easy to use SQL client for MySQL, Postgres, SQLite",
+            "type": "installer",
+            "tags": [
+                "database",
+                "sql",
+                "gui"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/beekeeper-studio"
+        },
+        "betterbird": {
+            "name": "Betterbird",
+            "description": "A fine-tuned version of Mozilla Thunderbird",
+            "type": "installer",
+            "tags": [
+                "email",
+                "client",
+                "thunderbird"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/betterbird"
+        },
         "bitvise": {
             "name": "Bitvise SSH Client",
             "description": "SSH and SFTP client for Windows",
@@ -1432,6 +1456,18 @@
                 "language"
             ]
         },
+        "espanso": {
+            "name": "Espanso",
+            "description": "Cross-platform Text Expander written in Rust",
+            "type": "installer",
+            "tags": [
+                "text",
+                "expander",
+                "productivity"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/espanso"
+        },
         "etcher": {
             "name": "balenaEtcher",
             "description": "Flash OS images to SD cards and USB drives safely",
@@ -2088,18 +2124,6 @@
                 "3d"
             ]
         },
-        "godot-mono": {
-            "name": "Godot Engine (Mono)",
-            "description": "Free and open source 2D and 3D game engine (C# Support)",
-            "type": "installer",
-            "tags": [
-                "game",
-                "engine",
-                "csharp"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/godot-mono"
-        },
         "gog-galaxy": {
             "name": "GOG Galaxy",
             "description": "Gaming client for DRM-free games from GOG.com",
@@ -2574,18 +2598,6 @@
                 "manager",
                 "files"
             ]
-        },
-        "jellyfin": {
-            "name": "Jellyfin",
-            "description": "The Free Software Media System",
-            "type": "installer",
-            "tags": [
-                "media",
-                "server",
-                "streaming"
-            ],
-            "version": "latest",
-            "url": "https://example.com/download/jellyfin"
         },
         "jellyfin-media-player": {
             "name": "Jellyfin Media Player",
@@ -6105,24 +6117,6 @@
                 "disk",
                 "security",
                 "privacy"
-            ]
-        },
-        "veracrypt-portable": {
-            "name": "VeraCrypt Portable",
-            "description": "Portable version of VeraCrypt disk encryption",
-            "version": "latest",
-            "type": "portable",
-            "url": "https://github.com/veracrypt/VeraCrypt/releases/latest/download/VeraCrypt_Portable_1.26.15.exe",
-            "github_repo": "veracrypt/VeraCrypt",
-            "asset_regex": "VeraCrypt_Portable.*\\.exe",
-            "bin": "VeraCrypt.exe",
-            "homepage": "https://www.veracrypt.fr",
-            "tags": [
-                "veracrypt",
-                "encryption",
-                "portable",
-                "disk",
-                "security"
             ]
         },
         "viber": {
