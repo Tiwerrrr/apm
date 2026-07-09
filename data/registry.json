@@ -2805,6 +2805,19 @@
       "uninstall_name": "Thorium",
       "homepage": "https://thorium.rocks/",
       "tags": ["thorium", "chromium", "browser", "web", "fast", "optimized"]
+    },
+    "autohotkey": {
+      "name": "AutoHotkey",
+      "description": "The ultimate automation scripting language for Windows",
+      "version": "latest",
+      "type": "installer",
+      "url": "https://github.com/AutoHotkey/AutoHotkey/releases/latest/download/AutoHotkey_2.0.18_setup.exe",
+      "github_repo": "AutoHotkey/AutoHotkey",
+      "asset_regex": "AutoHotkey_.*_setup\\.exe",
+      "silent_args": "/S /U",
+      "uninstall_name": "AutoHotkey",
+      "homepage": "https://www.autohotkey.com/",
+      "tags": ["autohotkey", "ahk", "automation", "scripting", "macro"]
     }
   }
 }
