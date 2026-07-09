@@ -22,7 +22,7 @@ var (
 
 const (
 	// Version is the current APM version
-	Version = "1.0.6"
+	Version = "1.0.7"
 )
 
 func init() {
