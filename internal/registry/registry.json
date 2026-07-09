@@ -17,6 +17,18 @@
                 "vault"
             ]
         },
+        "3dmark": {
+            "name": "3DMark",
+            "description": "The Gamers Benchmark",
+            "type": "installer",
+            "tags": [
+                "system",
+                "benchmark",
+                "gpu"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/3dmark"
+        },
         "7zip": {
             "name": "7-Zip",
             "description": "Free and open-source file archiver with high compression ratio",
@@ -34,6 +46,30 @@
                 "compress",
                 "extract"
             ]
+        },
+        "ableton-live": {
+            "name": "Ableton Live",
+            "description": "Software for music creation and performance",
+            "type": "installer",
+            "tags": [
+                "audio",
+                "daw",
+                "music"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/ableton-live"
+        },
+        "active-directory-explorer": {
+            "name": "AD Explorer",
+            "description": "Advanced Active Directory viewer and editor",
+            "type": "portable",
+            "tags": [
+                "ad",
+                "directory",
+                "sysinternals"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/active-directory-explorer"
         },
         "adb": {
             "name": "Android SDK Platform-Tools (ADB & Fastboot)",
@@ -199,6 +235,30 @@
                 "support"
             ]
         },
+        "anythingllm": {
+            "name": "AnythingLLM",
+            "description": "The all-in-one Desktop app for LLMs",
+            "type": "installer",
+            "tags": [
+                "ai",
+                "llm",
+                "desktop"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/anythingllm"
+        },
+        "apache-directory-studio": {
+            "name": "Apache Directory Studio",
+            "description": "LDAP browser and directory client",
+            "type": "installer",
+            "tags": [
+                "ldap",
+                "directory",
+                "tool"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/apache-directory-studio"
+        },
         "arduino-ide": {
             "name": "Arduino IDE",
             "description": "Open-source electronics prototyping platform IDE",
@@ -217,6 +277,18 @@
                 "development",
                 "microcontroller"
             ]
+        },
+        "aseprite": {
+            "name": "Aseprite",
+            "description": "Animated sprite editor & pixel art tool",
+            "type": "installer",
+            "tags": [
+                "art",
+                "pixel",
+                "animation"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/aseprite"
         },
         "audacity": {
             "name": "Audacity",
@@ -322,6 +394,18 @@
                 "devops"
             ]
         },
+        "balena-etcher": {
+            "name": "balenaEtcher",
+            "description": "Flash OS images to SD cards & USB drives, safely and easily",
+            "type": "installer",
+            "tags": [
+                "usb",
+                "boot",
+                "flash"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/balena-etcher"
+        },
         "barrier": {
             "name": "Barrier",
             "description": "Open-source KVM software to share mouse and keyboard between computers",
@@ -358,6 +442,18 @@
                 "terminal",
                 "syntax"
             ]
+        },
+        "battle-net": {
+            "name": "Battle.net",
+            "description": "Blizzard Entertainment games launcher",
+            "type": "installer",
+            "tags": [
+                "games",
+                "launcher",
+                "blizzard"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/battle-net"
         },
         "battlenet": {
             "name": "Battle.net Desktop App",
@@ -447,6 +543,18 @@
                 "rendering",
                 "design"
             ]
+        },
+        "borgbackup": {
+            "name": "BorgBackup",
+            "description": "Deduplicating archiver with compression and encryption",
+            "type": "installer",
+            "tags": [
+                "backup",
+                "archive",
+                "encryption"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/borgbackup"
         },
         "brave": {
             "name": "Brave Browser",
@@ -857,6 +965,18 @@
                 "client"
             ]
         },
+        "darktable": {
+            "name": "darktable",
+            "description": "Open source photography workflow application and raw developer",
+            "type": "installer",
+            "tags": [
+                "photo",
+                "raw",
+                "workflow"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/darktable"
+        },
         "dart": {
             "name": "Dart SDK",
             "description": "Client-optimized language for fast apps on any platform",
@@ -944,6 +1064,18 @@
                 "gpu"
             ]
         },
+        "deluge": {
+            "name": "Deluge",
+            "description": "A lightweight, Free Software, cross-platform BitTorrent client",
+            "type": "installer",
+            "tags": [
+                "torrent",
+                "p2p",
+                "download"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/deluge"
+        },
         "deno": {
             "name": "Deno",
             "description": "A modern runtime for JavaScript and TypeScript",
@@ -961,6 +1093,18 @@
                 "runtime",
                 "dev"
             ]
+        },
+        "digikam": {
+            "name": "digiKam",
+            "description": "Advanced Digital Photo Management",
+            "type": "installer",
+            "tags": [
+                "photo",
+                "management",
+                "organizer"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/digikam"
         },
         "directx": {
             "name": "DirectX End-User Runtime",
@@ -1187,6 +1331,18 @@
                 "playstation",
                 "gaming"
             ]
+        },
+        "duplicati": {
+            "name": "Duplicati",
+            "description": "Free backup software to store encrypted backups online",
+            "type": "installer",
+            "tags": [
+                "backup",
+                "cloud",
+                "encryption"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/duplicati"
         },
         "ea-app": {
             "name": "EA App",
@@ -1423,6 +1579,18 @@
                 "cli"
             ]
         },
+        "fdm": {
+            "name": "Free Download Manager",
+            "description": "Fast and reliable internet download manager",
+            "type": "installer",
+            "tags": [
+                "download",
+                "manager",
+                "tool"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/fdm"
+        },
         "feishin": {
             "name": "Feishin",
             "description": "A modern self-hosted music player.",
@@ -1530,6 +1698,18 @@
                 "private"
             ]
         },
+        "fl-studio": {
+            "name": "FL Studio",
+            "description": "Complete software music production environment",
+            "type": "installer",
+            "tags": [
+                "audio",
+                "daw",
+                "music"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/fl-studio"
+        },
         "flameshot": {
             "name": "Flameshot",
             "description": "Powerful yet simple to use screenshot tool",
@@ -1635,6 +1815,18 @@
                 "dev"
             ]
         },
+        "foxit-reader": {
+            "name": "Foxit PDF Reader",
+            "description": "Free PDF Reader & Viewer",
+            "type": "installer",
+            "tags": [
+                "pdf",
+                "reader",
+                "document"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/foxit-reader"
+        },
         "freedownloadmanager": {
             "name": "Free Download Manager",
             "description": "Powerful modern download accelerator and organizer",
@@ -1651,6 +1843,30 @@
                 "torrent",
                 "accelerator"
             ]
+        },
+        "freefilesync": {
+            "name": "FreeFileSync",
+            "description": "Folder Comparison and Synchronization",
+            "type": "installer",
+            "tags": [
+                "sync",
+                "files",
+                "backup"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/freefilesync"
+        },
+        "freeoffice": {
+            "name": "FreeOffice",
+            "description": "A complete Office suite with a word processor, a spreadsheet, and a presentation program",
+            "type": "installer",
+            "tags": [
+                "office",
+                "productivity",
+                "suite"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/freeoffice"
         },
         "furmark": {
             "name": "FurMark",
@@ -1686,6 +1902,18 @@
                 "search",
                 "cli"
             ]
+        },
+        "geany": {
+            "name": "Geany",
+            "description": "A fast and lightweight IDE",
+            "type": "installer",
+            "tags": [
+                "editor",
+                "ide",
+                "lightweight"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/geany"
         },
         "geforce-experience": {
             "name": "NVIDIA GeForce Experience",
@@ -1829,6 +2057,18 @@
                 "wm"
             ]
         },
+        "go": {
+            "name": "Go",
+            "description": "An open source programming language supported by Google",
+            "type": "installer",
+            "tags": [
+                "go",
+                "language",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/go"
+        },
         "godot": {
             "name": "Godot Engine",
             "description": "Free and open source 2D and 3D game engine",
@@ -1847,6 +2087,18 @@
                 "2d",
                 "3d"
             ]
+        },
+        "godot-mono": {
+            "name": "Godot Engine (Mono)",
+            "description": "Free and open source 2D and 3D game engine (C# Support)",
+            "type": "installer",
+            "tags": [
+                "game",
+                "engine",
+                "csharp"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/godot-mono"
         },
         "gog-galaxy": {
             "name": "GOG Galaxy",
@@ -1951,6 +2203,18 @@
                 "security",
                 "gnupg"
             ]
+        },
+        "gpt4all": {
+            "name": "GPT4All",
+            "description": "A free-to-use, locally running, privacy-aware chatbot",
+            "type": "installer",
+            "tags": [
+                "ai",
+                "llm",
+                "chat"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/gpt4all"
         },
         "gpu-z": {
             "name": "GPU-Z",
@@ -2259,6 +2523,30 @@
                 "lightweight"
             ]
         },
+        "jan": {
+            "name": "Jan",
+            "description": "Open source alternative to ChatGPT that runs 100% offline on your computer",
+            "type": "installer",
+            "tags": [
+                "ai",
+                "llm",
+                "offline"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/jan"
+        },
+        "java": {
+            "name": "Java",
+            "description": "A high-level, class-based, object-oriented programming language",
+            "type": "installer",
+            "tags": [
+                "java",
+                "language",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/java"
+        },
         "jdownloader": {
             "name": "JDownloader 2",
             "description": "Open-source download management tool",
@@ -2274,6 +2562,18 @@
                 "manager",
                 "files"
             ]
+        },
+        "jellyfin": {
+            "name": "Jellyfin",
+            "description": "The Free Software Media System",
+            "type": "installer",
+            "tags": [
+                "media",
+                "server",
+                "streaming"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/jellyfin"
         },
         "jellyfin-media-player": {
             "name": "Jellyfin Media Player",
@@ -2541,6 +2841,18 @@
                 "entertainment"
             ]
         },
+        "kopia": {
+            "name": "Kopia",
+            "description": "Cross-platform backup tool for Windows, macOS & Linux with fast, incremental backups",
+            "type": "installer",
+            "tags": [
+                "backup",
+                "snapshot",
+                "gui"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/kopia"
+        },
         "kotlin": {
             "name": "Kotlin Compiler",
             "description": "Statically typed programming language for modern multiplatform applications",
@@ -2577,6 +2889,18 @@
                 "design"
             ]
         },
+        "lapce": {
+            "name": "Lapce",
+            "description": "Lightning-fast and Powerful Code Editor written in Rust",
+            "type": "installer",
+            "tags": [
+                "editor",
+                "ide",
+                "rust"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/lapce"
+        },
         "laragon": {
             "name": "Laragon",
             "description": "Portable, isolated, fast & powerful universal development environment for PHP, Node.js, Python, Java, Go, Ruby",
@@ -2595,6 +2919,18 @@
                 "server",
                 "development"
             ]
+        },
+        "lazarus": {
+            "name": "Lazarus",
+            "description": "Rapid Application Development for Free Pascal",
+            "type": "installer",
+            "tags": [
+                "ide",
+                "pascal",
+                "rad"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/lazarus"
         },
         "lazydocker": {
             "name": "lazydocker",
@@ -2650,6 +2986,18 @@
                 "calc",
                 "document"
             ]
+        },
+        "librewolf": {
+            "name": "LibreWolf",
+            "description": "A custom version of Firefox, focused on privacy, security and freedom",
+            "type": "installer",
+            "tags": [
+                "browser",
+                "privacy",
+                "web"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/librewolf"
         },
         "lively-wallpaper": {
             "name": "Lively Wallpaper",
@@ -2725,6 +3073,18 @@
                 "audio",
                 "production"
             ]
+        },
+        "lmstudio": {
+            "name": "LM Studio",
+            "description": "Discover, download, and run local LLMs",
+            "type": "installer",
+            "tags": [
+                "ai",
+                "llm",
+                "chat"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/lmstudio"
         },
         "localsend": {
             "name": "LocalSend",
@@ -2905,6 +3265,18 @@
                 "cli"
             ]
         },
+        "microsoft-teams": {
+            "name": "Microsoft Teams",
+            "description": "Chat, meet, call, and collaborate",
+            "type": "installer",
+            "tags": [
+                "chat",
+                "work",
+                "collaboration"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/microsoft-teams"
+        },
         "mihomo-party": {
             "name": "Mihomo Party",
             "description": "Another excellent Clash Meta GUI",
@@ -2976,6 +3348,18 @@
                 "remux",
                 "container"
             ]
+        },
+        "moba-xterm": {
+            "name": "MobaXterm",
+            "description": "Enhanced terminal for Windows with X11 server, tabbed SSH client",
+            "type": "installer",
+            "tags": [
+                "ssh",
+                "terminal",
+                "x11"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/moba-xterm"
         },
         "modorganizer2": {
             "name": "Mod Organizer 2",
@@ -3093,6 +3477,18 @@
                 "manager"
             ]
         },
+        "msi-afterburner": {
+            "name": "MSI Afterburner",
+            "description": "Most used graphics card software for any card",
+            "type": "installer",
+            "tags": [
+                "system",
+                "overclock",
+                "gpu"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/msi-afterburner"
+        },
         "msiafterburner": {
             "name": "MSI Afterburner",
             "description": "Graphics card overclocking and monitoring utility",
@@ -3127,6 +3523,30 @@
                 "vpn",
                 "privacy"
             ]
+        },
+        "mumble": {
+            "name": "Mumble",
+            "description": "Open source, low-latency, high quality voice chat",
+            "type": "installer",
+            "tags": [
+                "voice",
+                "chat",
+                "gaming"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/mumble"
+        },
+        "mumble-server": {
+            "name": "Murmur",
+            "description": "Mumble Server",
+            "type": "installer",
+            "tags": [
+                "voice",
+                "server",
+                "chat"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/mumble-server"
         },
         "musescore": {
             "name": "MuseScore Studio",
@@ -3331,6 +3751,18 @@
                 "runtime"
             ]
         },
+        "nordvpn": {
+            "name": "NordVPN",
+            "description": "Secure and private internet access",
+            "type": "installer",
+            "tags": [
+                "vpn",
+                "security",
+                "privacy"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/nordvpn"
+        },
         "notepadplusplus": {
             "name": "Notepad++",
             "description": "Free source code editor and Notepad replacement",
@@ -3531,6 +3963,18 @@
                 "model",
                 "local"
             ]
+        },
+        "onlyoffice": {
+            "name": "ONLYOFFICE",
+            "description": "Free office suite for text documents, spreadsheets, presentations",
+            "type": "installer",
+            "tags": [
+                "office",
+                "productivity",
+                "suite"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/onlyoffice"
         },
         "open-shell": {
             "name": "Open-Shell",
@@ -3762,6 +4206,18 @@
                 "gaming"
             ]
         },
+        "pdf24": {
+            "name": "PDF24 Creator",
+            "description": "Free PDF creator and converter",
+            "type": "installer",
+            "tags": [
+                "pdf",
+                "creator",
+                "tool"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/pdf24"
+        },
         "peazip": {
             "name": "PeaZip",
             "description": "Free file archiver and compression utility",
@@ -3781,6 +4237,18 @@
                 "compress",
                 "extract"
             ]
+        },
+        "pgadmin": {
+            "name": "pgAdmin",
+            "description": "The most popular and feature rich Open Source administration and development platform for PostgreSQL",
+            "type": "installer",
+            "tags": [
+                "database",
+                "postgresql",
+                "admin"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/pgadmin"
         },
         "pgadmin4": {
             "name": "pgAdmin 4",
@@ -3854,6 +4322,18 @@
                 "gog"
             ]
         },
+        "plex": {
+            "name": "Plex Media Server",
+            "description": "Organize, beautify, stream, and share your personal media",
+            "type": "installer",
+            "tags": [
+                "media",
+                "server",
+                "streaming"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/plex"
+        },
         "plex-media-server": {
             "name": "Plex Media Server",
             "description": "Organizes video, music and photos from personal media libraries and streams them to smart TVs, streaming boxes and mobile devices",
@@ -3904,6 +4384,18 @@
                 "dev",
                 "testing"
             ]
+        },
+        "potplayer": {
+            "name": "PotPlayer",
+            "description": "Multimedia player with built-in codecs",
+            "type": "installer",
+            "tags": [
+                "media",
+                "player",
+                "video"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/potplayer"
         },
         "powertoys": {
             "name": "Microsoft PowerToys",
@@ -3976,6 +4468,18 @@
                 "cracked",
                 "games"
             ]
+        },
+        "process-hacker": {
+            "name": "Process Hacker",
+            "description": "A free, powerful, multi-purpose tool that helps you monitor system resources",
+            "type": "installer",
+            "tags": [
+                "system",
+                "monitor",
+                "task-manager"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/process-hacker"
         },
         "processhacker": {
             "name": "System Informer (Process Hacker)",
@@ -4221,6 +4725,30 @@
                 "customization"
             ]
         },
+        "rancher-desktop": {
+            "name": "Rancher Desktop",
+            "description": "Container Management and Kubernetes on the Desktop",
+            "type": "installer",
+            "tags": [
+                "docker",
+                "kubernetes",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/rancher-desktop"
+        },
+        "rawtherapee": {
+            "name": "RawTherapee",
+            "description": "A powerful, cross-platform raw photo processing system",
+            "type": "installer",
+            "tags": [
+                "photo",
+                "raw",
+                "processing"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/rawtherapee"
+        },
         "razer-synapse": {
             "name": "Razer Synapse",
             "description": "Hardware configuration tool for Razer peripherals",
@@ -4238,6 +4766,18 @@
                 "gaming",
                 "peripheral"
             ]
+        },
+        "rclone": {
+            "name": "Rclone",
+            "description": "rsync for cloud storage",
+            "type": "portable",
+            "tags": [
+                "sync",
+                "cloud",
+                "backup"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/rclone"
         },
         "reaper": {
             "name": "REAPER",
@@ -4293,6 +4833,18 @@
                 "dev"
             ]
         },
+        "restic": {
+            "name": "restic",
+            "description": "Fast, secure, efficient backup program",
+            "type": "portable",
+            "tags": [
+                "backup",
+                "secure",
+                "cli"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/restic"
+        },
         "retroarch": {
             "name": "RetroArch",
             "description": "Frontend for emulators, game engines, and media players",
@@ -4309,6 +4861,18 @@
                 "games",
                 "console"
             ]
+        },
+        "riot-client": {
+            "name": "Riot Client",
+            "description": "Launcher for League of Legends, Valorant, and other Riot games",
+            "type": "installer",
+            "tags": [
+                "games",
+                "launcher",
+                "riot"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/riot-client"
         },
         "ripgrep": {
             "name": "ripgrep",
@@ -4542,6 +5106,18 @@
                 "capture"
             ]
         },
+        "scribus": {
+            "name": "Scribus",
+            "description": "Open Source Desktop Publishing",
+            "type": "installer",
+            "tags": [
+                "publishing",
+                "layout",
+                "dtp"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/scribus"
+        },
         "scummvm": {
             "name": "ScummVM",
             "description": "A program which allows you to run certain classic graphical point-and-click adventure games",
@@ -4593,6 +5169,18 @@
                 "editing",
                 "montage"
             ]
+        },
+        "sigil": {
+            "name": "Sigil",
+            "description": "A multi-platform EPUB ebook editor",
+            "type": "installer",
+            "tags": [
+                "ebook",
+                "editor",
+                "epub"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/sigil"
         },
         "signal": {
             "name": "Signal Desktop",
@@ -4698,6 +5286,18 @@
                 "soap",
                 "rest"
             ]
+        },
+        "softerra-ldap-browser": {
+            "name": "Softerra LDAP Browser",
+            "description": "Free LDAP client",
+            "type": "installer",
+            "tags": [
+                "ldap",
+                "directory",
+                "tool"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/softerra-ldap-browser"
         },
         "sourcetree": {
             "name": "Sourcetree",
@@ -4981,6 +5581,18 @@
                 "architecture"
             ]
         },
+        "syncthing": {
+            "name": "Syncthing",
+            "description": "Continuous File Synchronization",
+            "type": "installer",
+            "tags": [
+                "sync",
+                "files",
+                "p2p"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/syncthing"
+        },
         "synctrayzor": {
             "name": "SyncTrayzor",
             "description": "Windows tray utility and Syncthing wrapper",
@@ -5018,6 +5630,18 @@
                 "vector",
                 "drawing"
             ]
+        },
+        "sysinternals": {
+            "name": "Sysinternals Suite",
+            "description": "Troubleshooting utilities for Windows",
+            "type": "portable",
+            "tags": [
+                "system",
+                "tools",
+                "troubleshoot"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/sysinternals"
         },
         "tabby": {
             "name": "Tabby",
@@ -5072,6 +5696,30 @@
                 "communication",
                 "gaming"
             ]
+        },
+        "teamspeak-server": {
+            "name": "TeamSpeak Server",
+            "description": "VoIP communication server",
+            "type": "installer",
+            "tags": [
+                "voice",
+                "server",
+                "gaming"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/teamspeak-server"
+        },
+        "teamviewer": {
+            "name": "TeamViewer",
+            "description": "Remote support, remote access, online collaboration",
+            "type": "installer",
+            "tags": [
+                "remote",
+                "desktop",
+                "support"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/teamviewer"
         },
         "telegram": {
             "name": "Telegram Desktop",
@@ -5298,6 +5946,42 @@
                 "games",
                 "launcher"
             ]
+        },
+        "unity": {
+            "name": "Unity Hub",
+            "description": "Manage your Unity projects and installations",
+            "type": "installer",
+            "tags": [
+                "game",
+                "engine",
+                "development"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/unity"
+        },
+        "unreal-engine": {
+            "name": "Epic Games Launcher",
+            "description": "Launcher for Unreal Engine and Epic Games",
+            "type": "installer",
+            "tags": [
+                "game",
+                "engine",
+                "launcher"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/unreal-engine"
+        },
+        "utorrent": {
+            "name": "uTorrent",
+            "description": "A very tiny BitTorrent client",
+            "type": "installer",
+            "tags": [
+                "torrent",
+                "p2p",
+                "download"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/utorrent"
         },
         "v2rayn": {
             "name": "v2rayN",
@@ -5597,6 +6281,18 @@
                 "visual-studio"
             ]
         },
+        "vscodium": {
+            "name": "VSCodium",
+            "description": "Free/Libre Open Source Software Binaries of VS Code",
+            "type": "installer",
+            "tags": [
+                "editor",
+                "ide",
+                "code"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/vscodium"
+        },
         "wabbajack": {
             "name": "Wabbajack",
             "description": "An automated modlist installer",
@@ -5630,6 +6326,42 @@
                 "cloudflare",
                 "1.1.1.1"
             ]
+        },
+        "waterfox": {
+            "name": "Waterfox",
+            "description": "The private, free and open web browser",
+            "type": "installer",
+            "tags": [
+                "browser",
+                "web",
+                "privacy"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/waterfox"
+        },
+        "webex": {
+            "name": "Cisco Webex",
+            "description": "Video conferencing, online meetings, screen share",
+            "type": "installer",
+            "tags": [
+                "video",
+                "chat",
+                "meetings"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/webex"
+        },
+        "wechat": {
+            "name": "WeChat",
+            "description": "Connecting a billion people with calls, chats, and more",
+            "type": "installer",
+            "tags": [
+                "chat",
+                "messenger",
+                "social"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/wechat"
         },
         "wezterm": {
             "name": "WezTerm",
@@ -5701,6 +6433,18 @@
                 "windows",
                 "taskbar"
             ]
+        },
+        "windows-terminal": {
+            "name": "Windows Terminal",
+            "description": "Modern, fast, efficient, powerful, and productive terminal application",
+            "type": "installer",
+            "tags": [
+                "terminal",
+                "console",
+                "microsoft"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/windows-terminal"
         },
         "windterm": {
             "name": "WindTerm",
@@ -5845,6 +6589,18 @@
                 "cleanup"
             ]
         },
+        "wps-office": {
+            "name": "WPS Office",
+            "description": "Free office suite for Word, PDF, Excel, PowerPoint",
+            "type": "installer",
+            "tags": [
+                "office",
+                "productivity",
+                "suite"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/wps-office"
+        },
         "wsl": {
             "name": "WSL (Windows Subsystem for Linux)",
             "description": "Run Linux distributions natively on Windows",
@@ -5935,6 +6691,18 @@
                 "video",
                 "audio"
             ]
+        },
+        "zed": {
+            "name": "Zed",
+            "description": "A high-performance, multiplayer code editor",
+            "type": "installer",
+            "tags": [
+                "editor",
+                "ide",
+                "rust"
+            ],
+            "version": "latest",
+            "url": "https://example.com/download/zed"
         },
         "zen": {
             "name": "Zen Browser",
