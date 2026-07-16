@@ -79,7 +79,7 @@ func createShim(binDir string, exePath string, shimName string) error {
 "%s" %%*
 `, exePath)
 
-	console.Info("Creating shim: %s -> %s", shimName, exePath)
+	console.Info("Создан shim-файл (ярлык CLI): %s -> %s", shimName, exePath)
 	return os.WriteFile(shimPath, []byte(content), 0755)
 }
 
@@ -102,6 +102,6 @@ func createStartMenuShortcut(exePath string, appName string) error {
 		return fmt.Errorf("powershell failed to create shortcut: %w", err)
 	}
 	
-	console.Info("Added %s to Start Menu", appName)
+	console.Info("Добавлен ярлык %s в меню Пуск", appName)
 	return nil
 }

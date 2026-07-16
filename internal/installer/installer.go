@@ -2,6 +2,7 @@ package installer
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -16,22 +17,41 @@ import (
 func Install(pkg *registry.Package, pkgID string, filePath string) error {
 	ext := strings.ToLower(filepath.Ext(filePath))
 
-	// Handle Portable ZIPs
-	if ext == ".zip" {
-		console.Step("📦", "Extracting portable package...")
+	// Handle Portable packages
+	if pkg.Type == "portable" {
+		console.Step("📦", "Установка портативного приложения...")
 		appsDir := filepath.Join(config.RootDir, "apps")
 		installDir := filepath.Join(appsDir, pkgID)
 		
 		// Remove previous install dir if exists
 		os.RemoveAll(installDir)
-		
-		if err := extractZip(filePath, installDir); err != nil {
-			return fmt.Errorf("failed to extract zip: %w", err)
+		if err := os.MkdirAll(installDir, 0755); err != nil {
+			return fmt.Errorf("failed to create install dir: %w", err)
 		}
 		
-		// Create Shim if bin is specified
-		if pkg.Bin != "" {
-			exePath := filepath.Join(installDir, pkg.Bin)
+		if ext == ".zip" {
+			if err := extractZip(filePath, installDir); err != nil {
+				return fmt.Errorf("failed to extract zip: %w", err)
+			}
+		} else if ext == ".exe" {
+			destFile := filepath.Join(installDir, filepath.Base(filePath))
+			if err := copyFile(filePath, destFile); err != nil {
+				return fmt.Errorf("failed to copy portable exe: %w", err)
+			}
+		} else {
+			console.Warning("Установка форматов %s может поддерживаться не полностью", ext)
+			// Try to copy anyway if not recognized, just in case
+			destFile := filepath.Join(installDir, filepath.Base(filePath))
+			copyFile(filePath, destFile)
+		}
+		
+		binPath := pkg.Bin
+		if binPath == "" && ext == ".exe" {
+			binPath = filepath.Base(filePath)
+		}
+
+		if binPath != "" {
+			exePath := filepath.Join(installDir, binPath)
 			binDir := filepath.Join(config.RootDir, "bin")
 			if err := createShim(binDir, exePath, pkgID); err != nil {
 				console.Warning("Failed to create shim: %v", err)
@@ -77,8 +97,8 @@ func Install(pkg *registry.Package, pkgID string, filePath string) error {
 
 	if err := cmd.Run(); err != nil {
 		errStr := err.Error()
-		// Проверяем, требует ли установщик прав администратора (exit code 740)
-		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") {
+		// Проверяем, требует ли установщик прав администратора (exit code 740, или 1603 для MSI без прав)
+		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") || (ext == ".msi" && strings.Contains(errStr, "1603")) {
 			console.Warning("Установщик требует прав Администратора. Подтвердите запрос UAC...")
 			
 			var psCmd string
@@ -274,7 +294,8 @@ func runUninstallCommand(cmdStr string) error {
 	
 	if err := cmd.Run(); err != nil {
 		errStr := err.Error()
-		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") {
+		isMsi := strings.Contains(strings.ToLower(args[0]), "msiexec")
+		if strings.Contains(strings.ToLower(errStr), "requires elevation") || strings.Contains(errStr, "740") || strings.Contains(strings.ToLower(errStr), "повышения прав") || (isMsi && strings.Contains(errStr, "1603")) {
 			console.Warning("Удаление требует прав Администратора. Подтвердите запрос UAC...")
 			
 			argsListStr := ""
@@ -329,4 +350,28 @@ func splitArgs(s string) []string {
 	}
 
 	return args
+}
+
+// copyFile is a simple utility to copy a file from src to dst
+func copyFile(src, dst string) error {
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+
+	if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
+		return err
+	}
+
+	out, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	if _, err = io.Copy(out, in); err != nil {
+		return err
+	}
+	return nil
 }
