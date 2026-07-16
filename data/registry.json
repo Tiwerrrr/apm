@@ -6069,7 +6069,7 @@
             "name": "Vencord Installer",
             "description": "Vencord Installer for Discord",
             "version": "latest",
-            "type": "installer",
+            "type": "portable",
             "url": "https://github.com/Vencord/Installer/releases/latest/download/VencordInstaller.exe",
             "github_repo": "Vencord/Installer",
             "asset_regex": "VencordInstaller\\.exe",
