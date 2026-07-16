@@ -42,7 +42,7 @@ func Import(filePath string) error {
 			continue
 		}
 
-		if err := Install(pkgID); err != nil {
+		if err := InstallMultiple([]string{pkgID}); err != nil {
 			console.Error("Failed to install %s: %v", pkgID, err)
 		} else {
 			successCount++

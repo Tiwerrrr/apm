@@ -14,7 +14,7 @@ import (
 func Reinstall(pkgID string) error {
 	if !installer.IsInstalled(pkgID) {
 		console.Warning("Package \"%s\" is not currently installed, performing fresh install...", pkgID)
-		return Install(pkgID)
+		return InstallMultiple([]string{pkgID})
 	}
 
 	fmt.Println()
@@ -30,7 +30,7 @@ func Reinstall(pkgID string) error {
 	clearCacheForPackage(pkgID)
 
 	// 3. Reinstall
-	if err := Install(pkgID); err != nil {
+	if err := InstallMultiple([]string{pkgID}); err != nil {
 		return fmt.Errorf("reinstall failed: %w", err)
 	}
 

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -29,6 +30,7 @@ type Package struct {
 	GithubRepo    string   `json:"github_repo,omitempty"`
 	AssetRegex    string   `json:"asset_regex,omitempty"`
 	Dependencies  []string `json:"dependencies,omitempty"`
+	Hash          string   `json:"hash,omitempty"`
 	Bin           string   `json:"bin,omitempty"`
 }
 
@@ -53,6 +55,28 @@ func Load() (*Registry, error) {
 	if err := json.Unmarshal(data, &reg); err != nil {
 		return nil, fmt.Errorf("failed to parse registry: %w", err)
 	}
+
+	// Merge custom registries if present
+	if entries, err := os.ReadDir(config.ReposDir); err == nil {
+		for _, entry := range entries {
+			if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".json") {
+				cData, err := os.ReadFile(filepath.Join(config.ReposDir, entry.Name()))
+				if err == nil {
+					var cReg Registry
+					if err := json.Unmarshal(cData, &cReg); err == nil {
+						if reg.Packages == nil {
+							reg.Packages = make(map[string]Package)
+						}
+						for k, v := range cReg.Packages {
+							// Custom registries override default packages
+							reg.Packages[k] = v
+						}
+					}
+				}
+			}
+		}
+	}
+
 	return &reg, nil
 }
 

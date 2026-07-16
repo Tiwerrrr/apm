@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"sync"
+
 	"github.com/apm-cli/apm/internal/config"
 	"github.com/apm-cli/apm/internal/console"
 	"github.com/apm-cli/apm/internal/downloader"
@@ -12,8 +14,8 @@ import (
 	"github.com/apm-cli/apm/internal/registry"
 )
 
-// Install downloads and installs a package
-func Install(pkgID string) error {
+// InstallMultiple resolves all dependencies, downloads in parallel, and installs sequentially
+func InstallMultiple(pkgIDs []string) error {
 	// Ensure APM directories exist
 	if err := config.EnsureDirs(); err != nil {
 		return fmt.Errorf("failed to create APM directories: %w", err)
@@ -25,78 +27,146 @@ func Install(pkgID string) error {
 		return fmt.Errorf("failed to load registry: %w", err)
 	}
 
-	// Find the package
-	pkg := reg.Get(pkgID)
-	if pkg == nil {
-		// Try fuzzy search
-		results := reg.Search(pkgID)
-		if len(results) > 0 {
-			console.Error("Package \"%s\" not found", pkgID)
-			console.Info("Did you mean one of these?")
-			fmt.Println()
-			for _, r := range results {
-				fmt.Printf("  • %s  %s%s%s\n", console.PackageName(r.ID), console.Dim, r.Package.Description, console.Reset)
-			}
-			fmt.Println()
-			console.Info("Use: %sapm install %s%s", console.Bold, results[0].ID, console.Reset)
+	var toInstall []string
+	visited := make(map[string]bool)
+
+	// Helper to resolve dependencies
+	var resolve func(id string) error
+	resolve = func(id string) error {
+		if visited[id] {
 			return nil
 		}
-		return fmt.Errorf("package '%s' not found in registry", pkgID)
-	}
+		visited[id] = true
 
-	// 1. Resolve Dependencies
-	for _, depID := range pkg.Dependencies {
-		if !installer.IsInstalled(depID) {
-			console.Info("Installing dependency: %s", console.PackageName(depID))
-			if err := Install(depID); err != nil {
-				return fmt.Errorf("failed to install dependency %s: %w", depID, err)
+		if installer.IsInstalled(id) {
+			return nil
+		}
+
+		pkg := reg.Get(id)
+		if pkg == nil {
+			// Try fuzzy search for the first missing package
+			results := reg.Search(id)
+			if len(results) > 0 {
+				console.Error("Package \"%s\" not found", id)
+				console.Info("Did you mean one of these?")
+				fmt.Println()
+				for _, r := range results {
+					fmt.Printf("  • %s  %s%s%s\n", console.PackageName(r.ID), console.Dim, r.Package.Description, console.Reset)
+				}
+				fmt.Println()
+				return fmt.Errorf("package '%s' not found", id)
+			}
+			return fmt.Errorf("package '%s' not found in registry", id)
+		}
+
+		// Resolve dependencies first
+		for _, dep := range pkg.Dependencies {
+			if err := resolve(dep); err != nil {
+				return err
 			}
 		}
-	}
 
-	// Check if already installed
-	if installer.IsInstalled(pkgID) {
-		console.Warning("%s is already installed", console.PackageName(pkg.Name))
-		console.Info("Use %sapm remove %s%s first to reinstall", console.Bold, pkgID, console.Reset)
+		toInstall = append(toInstall, id)
 		return nil
 	}
 
-	// 2. Dynamic GitHub Fetch
-	if pkg.GithubRepo != "" {
-		console.Step("🔍", "Querying GitHub API for latest release of %s...", pkg.GithubRepo)
-		ghUrl, ghVersion, _, err := installer.FetchLatestGitHubAsset(pkg.GithubRepo, pkg.AssetRegex)
-		if err != nil {
-			return fmt.Errorf("failed to fetch latest GitHub release: %w", err)
+	for _, id := range pkgIDs {
+		if err := resolve(id); err != nil {
+			return err
 		}
-		pkg.URL = ghUrl
-		pkg.Version = ghVersion
 	}
 
-	// Display what we're installing
-	fmt.Println()
-	console.Step("📦", "Installing %s (%s %s)...\n",
-		console.PackageName(pkg.Name),
-		pkgID,
-		console.VersionStr("v"+pkg.Version),
-	)
-
-	// Determine filename from URL
-	filename := guessFilename(pkg.URL, pkgID)
-
-	// Download
-	filePath, err := downloader.Download(pkg.URL, config.CacheDir, filename)
-	if err != nil {
-		return fmt.Errorf("download failed: %w", err)
+	if len(toInstall) == 0 {
+		console.Info("All requested packages are already installed.")
+		return nil
 	}
 
-	// Install
-	if err := installer.Install(pkg, pkgID, filePath); err != nil {
-		return fmt.Errorf("installation failed: %w", err)
+	console.Step("📦", "Resolved %d package(s) to install.", len(toInstall))
+
+	// Parallel Download Phase
+	if len(toInstall) > 1 {
+		console.Step("⬇", "Downloading %d packages in parallel...", len(toInstall))
 	}
 
-	fmt.Println()
-	console.Success("%s installed successfully!", console.PackageName(pkg.Name))
-	fmt.Println()
+	var wg sync.WaitGroup
+	errCh := make(chan error, len(toInstall))
+	dlMap := make(map[string]string)
+	var mu sync.Mutex
+
+	for _, id := range toInstall {
+		wg.Add(1)
+		go func(pkgID string) {
+			defer wg.Done()
+			
+			pkg := reg.Get(pkgID)
+			
+			// Dynamic GitHub Fetch
+			if pkg.GithubRepo != "" {
+				ghUrl, ghVersion, _, err := installer.FetchLatestGitHubAsset(pkg.GithubRepo, pkg.AssetRegex)
+				if err != nil {
+					errCh <- fmt.Errorf("failed to fetch latest GitHub release for %s: %w", pkgID, err)
+					return
+				}
+				pkg.URL = ghUrl
+				pkg.Version = ghVersion
+			}
+
+			filename := guessFilename(pkg.URL, pkgID)
+			
+			// Download (quiet if multiple packages)
+			quiet := len(toInstall) > 1
+			filePath, err := downloader.Download(pkg.URL, config.CacheDir, filename, pkg.Hash, quiet)
+			if err != nil {
+				errCh <- fmt.Errorf("failed to download %s: %w", pkgID, err)
+				return
+			}
+
+			mu.Lock()
+			dlMap[pkgID] = filePath
+			mu.Unlock()
+
+			if quiet {
+				fmt.Printf("  • %sDownloaded %s%s\n", console.BrightGreen, pkgID, console.Reset)
+			}
+		}(id)
+	}
+
+	wg.Wait()
+	close(errCh)
+
+	if len(errCh) > 0 {
+		return <-errCh // Return first error
+	}
+
+	if len(toInstall) > 1 {
+		console.Success("All downloads completed.")
+		fmt.Println()
+	}
+
+	// Sequential Install Phase
+	for idx, pkgID := range toInstall {
+		pkg := reg.Get(pkgID)
+		filePath := dlMap[pkgID]
+
+		if len(toInstall) > 1 {
+			fmt.Printf("%s%s [%d/%d] Installing %s%s\n", console.Bold, console.BrightCyan, idx+1, len(toInstall), pkgID, console.Reset)
+		} else {
+			fmt.Println()
+		}
+
+		console.Step("📦", "Installing %s (%s %s)...",
+			console.PackageName(pkg.Name),
+			pkgID,
+			console.VersionStr("v"+pkg.Version),
+		)
+
+		if err := installer.Install(pkg, pkgID, filePath); err != nil {
+			return fmt.Errorf("installation failed for %s: %w", pkgID, err)
+		}
+
+		console.Success("%s installed successfully!", console.PackageName(pkg.Name))
+		fmt.Println()
+	}
 
 	return nil
 }

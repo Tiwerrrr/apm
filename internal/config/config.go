@@ -18,11 +18,15 @@ var (
 	InstalledFile string
 	// RegistryFile is the locally cached registry from GitHub
 	RegistryFile string
+	// ReposFile stores custom user repositories URLs
+	ReposFile string
+	// ReposDir is the directory where custom registries are cached
+	ReposDir string
 )
 
 const (
 	// Version is the current APM version
-	Version = "1.0.8"
+	Version = "1.0.9"
 )
 
 func init() {
@@ -36,11 +40,13 @@ func init() {
 	CacheDir = filepath.Join(RootDir, "cache")
 	InstalledFile = filepath.Join(RootDir, "installed.json")
 	RegistryFile = filepath.Join(RootDir, "registry.json")
+	ReposFile = filepath.Join(RootDir, "repos.json")
+	ReposDir = filepath.Join(RootDir, "repos")
 }
 
 // EnsureDirs creates all necessary APM directories
 func EnsureDirs() error {
-	dirs := []string{RootDir, AppsDir, CacheDir}
+	dirs := []string{RootDir, AppsDir, CacheDir, ReposDir}
 	for _, dir := range dirs {
 		if err := os.MkdirAll(dir, 0755); err != nil {
 			return err

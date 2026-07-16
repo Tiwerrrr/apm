@@ -103,7 +103,7 @@ func UpgradeSelf() error {
 
 	tempDir := os.TempDir()
 	
-	downloadedPath, err := downloader.Download(installerURL, tempDir, "apm-installer-new.exe")
+	downloadedPath, err := downloader.Download(installerURL, tempDir, "apm-installer-new.exe", "", false)
 	if err != nil {
 		return fmt.Errorf("failed to download installer: %w", err)
 	}

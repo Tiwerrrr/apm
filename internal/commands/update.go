@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/apm-cli/apm/internal/config"
 	"github.com/apm-cli/apm/internal/console"
@@ -38,6 +39,35 @@ func Update() error {
 	// Write to local cache
 	if err := os.WriteFile(config.RegistryFile, data, 0644); err != nil {
 		return fmt.Errorf("failed to save registry: %w", err)
+	}
+
+	// Fetch custom registries
+	repos, err := LoadRepos()
+	if err == nil && len(repos) > 0 {
+		console.Step("🔄", "Updating custom repositories...")
+		for name, rURL := range repos {
+			cResp, err := http.Get(rURL)
+			if err != nil {
+				console.Warning("Failed to update repo '%s': %v", name, err)
+				continue
+			}
+			if cResp.StatusCode != http.StatusOK {
+				cResp.Body.Close()
+				console.Warning("Repo '%s' returned status: %s", name, cResp.Status)
+				continue
+			}
+			cData, err := io.ReadAll(cResp.Body)
+			cResp.Body.Close()
+			if err != nil {
+				console.Warning("Failed to read repo '%s': %v", name, err)
+				continue
+			}
+			cPath := filepath.Join(config.ReposDir, name+".json")
+			if err := os.WriteFile(cPath, cData, 0644); err != nil {
+				console.Warning("Failed to save repo '%s': %v", name, err)
+				continue
+			}
+		}
 	}
 
 	console.Success("Registry updated successfully! (%s)", console.FormatBytes(int64(len(data))))

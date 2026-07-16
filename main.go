@@ -25,26 +25,11 @@ func main() {
 			console.Info("Usage: %sapm install <package> [package2] [package3]...%s", console.Bold, console.Reset)
 			os.Exit(1)
 		}
-		// Multi-install: install all packages listed
+		// Multi-install: download in parallel, install sequentially
 		packages := os.Args[2:]
-		failed := 0
-		for idx, pkgID := range packages {
-			pkgID = strings.ToLower(pkgID)
-			if len(packages) > 1 {
-				fmt.Printf("\n%s%s [%d/%d] Installing %s%s\n", console.Bold, console.BrightCyan, idx+1, len(packages), pkgID, console.Reset)
-			}
-			if err := commands.Install(pkgID); err != nil {
-				console.Error("%v", err)
-				failed++
-			}
-		}
-		if len(packages) > 1 {
-			fmt.Println()
-			if failed == 0 {
-				console.Success("All %d packages installed successfully!", len(packages))
-			} else {
-				console.Warning("%d of %d packages installed (%d failed)", len(packages)-failed, len(packages), failed)
-			}
+		if err := commands.InstallMultiple(packages); err != nil {
+			console.Error("%v", err)
+			os.Exit(1)
 		}
 
 	case "remove", "uninstall", "rm":
@@ -195,6 +180,50 @@ func main() {
 
 	case "version", "v", "--version", "-v":
 		fmt.Printf("APM (Awesome Package Manager) v%s\n", config.Version)
+
+	case "repo":
+		if len(os.Args) < 3 {
+			console.Error("Missing repo subcommand")
+			console.Info("Usage:")
+			console.Info("  apm repo add <name> <url>")
+			console.Info("  apm repo remove <name>")
+			console.Info("  apm repo list")
+			os.Exit(1)
+		}
+		subCmd := strings.ToLower(os.Args[2])
+		switch subCmd {
+		case "add":
+			if len(os.Args) < 5 {
+				console.Error("Missing repo name or URL")
+				console.Info("Usage: apm repo add <name> <url>")
+				os.Exit(1)
+			}
+			name := os.Args[3]
+			url := os.Args[4]
+			if err := commands.RepoAdd(name, url); err != nil {
+				console.Error("%v", err)
+				os.Exit(1)
+			}
+		case "remove", "rm":
+			if len(os.Args) < 4 {
+				console.Error("Missing repo name")
+				console.Info("Usage: apm repo remove <name>")
+				os.Exit(1)
+			}
+			name := os.Args[3]
+			if err := commands.RepoRemove(name); err != nil {
+				console.Error("%v", err)
+				os.Exit(1)
+			}
+		case "list", "ls":
+			if err := commands.RepoList(); err != nil {
+				console.Error("%v", err)
+				os.Exit(1)
+			}
+		default:
+			console.Error("Unknown repo subcommand: %s", subCmd)
+			os.Exit(1)
+		}
 
 	case "help", "h", "--help", "-h":
 		printUsage()

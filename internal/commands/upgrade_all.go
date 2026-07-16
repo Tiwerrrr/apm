@@ -73,7 +73,7 @@ func UpgradeAll() error {
 			console.Warning("Failed to uninstall %s during upgrade: %v", pkgID, err)
 		}
 
-		if err := Install(pkgID); err != nil {
+		if err := InstallMultiple([]string{pkgID}); err != nil {
 			console.Error("Failed to upgrade %s: %v", pkgID, err)
 		} else {
 			console.Success("Successfully upgraded %s", pkgID)
